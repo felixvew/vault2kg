@@ -11,9 +11,9 @@ Your vault already holds most of a graph: `[[links]]` are edges, frontmatter is 
 
 <table>
 <tr>
-<td align="center" width="33%"><img src="assets/viewer-1-links.png" alt="Step 1: only the notes, as black nodes, connected by their links"><br><sub><b>1. From the vault, no LLM</b><br>notes and their links</sub></td>
-<td align="center" width="33%"><img src="assets/viewer-2-entities.png" alt="Step 2: the same notes plus violet entity nodes the LLM found in the text, not yet connected"><br><sub><b>2. Entities in the text</b><br>found by the LLM, shown unconnected</sub></td>
-<td align="center" width="33%"><img src="assets/viewer-3-full.png" alt="Step 3: notes and entities densely connected by the relationships the LLM extracted"><br><sub><b>3. The full graph</b><br>with the LLM's relationships</sub></td>
+<td align="center" valign="bottom" width="33%"><img src="assets/viewer-1-links.png" alt="Step 1: only the notes, as black nodes, connected by their links"><br><sub><b>1. From the vault, no LLM</b><br>notes and their links</sub></td>
+<td align="center" valign="bottom" width="33%"><img src="assets/viewer-2-entities.png" alt="Step 2: the same notes plus violet entity nodes the LLM found in the text, not yet connected"><br><sub><b>2. Entities in the text</b><br>found by the LLM, shown unconnected</sub></td>
+<td align="center" valign="bottom" width="33%"><img src="assets/viewer-3-full.png" alt="Step 3: notes and entities densely connected by the relationships the LLM extracted"><br><sub><b>3. The full graph</b><br>with the LLM's relationships</sub></td>
 </tr>
 </table>
 <p align="center"><sub>A real vault of 88 notes in <code>src/kg_view.py</code>, names hidden: notes in black, entities in violet. Steps 1 and 2 are the same graph with the viewer's "Entities" and "Extracted by LLM" switches turned off. Entities and their relationships come from the same LLM step; step 2 only separates them to show what was found.</sub></p>
