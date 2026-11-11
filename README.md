@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 # vault2kg <img src="logo.svg" alt="logo" height="32">
+=======
+# vault2kg <img src="logo.svg" alt="logo" width="75" height="75"> 
+>>>>>>> 8cd954f419f528b7098ca644b4fc5e8d3f5551b6
 
 Point it at an Obsidian vault and get a knowledge graph, ready for Neo4j, LightRAG or a viewer in your browser.
 
