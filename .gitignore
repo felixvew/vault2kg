@@ -1,0 +1,17 @@
+# Publish only the project folder. Everything else here (your own vault, its graph,
+# the LightRAG store, the Python environment) stays out of the repository.
+/*
+!/.gitignore
+!/vault2kg/
+
+# A private house style for the viewer (kg_view.py uses its built-in style without it)
+proto-ui.css
+
+# Generated anywhere: graphs next to a vault, caches, LightRAG stores
+*-kg/
+.cache/
+rag/
+rag_storage/
+__pycache__/
+.pytest_cache/
+*.pyc

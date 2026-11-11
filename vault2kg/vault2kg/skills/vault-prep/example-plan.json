@@ -1,0 +1,13 @@
+{
+  "split": {"systems": [" AND "]},
+  "link": ["team", "risk", "systems"],
+  "alias": ["item_id"],
+  "hubs": {
+    "folder": "Hubs",
+    "notes": {
+      "R1": {"type": "Risk level", "text": "Risk level 1: a mistake is noticed at once and costs little."},
+      "R2": {"type": "Risk level", "text": "Risk level 2: a mistake reaches a report before someone notices it."},
+      "R3": {"type": "Risk level", "text": "Risk level 3: a mistake affects athletes or personal data."}
+    }
+  }
+}

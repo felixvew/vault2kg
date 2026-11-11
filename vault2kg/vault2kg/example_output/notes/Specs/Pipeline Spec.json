@@ -1,0 +1,76 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Specs/Pipeline Spec",
+    "path": "Specs/Pipeline Spec.md",
+    "title": "Pipeline Spec",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {},
+    "content_hash": "9d5b11d7b8f37403"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 1,
+      "relationships": 0,
+      "passages": 1
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "Specs/Pipeline Spec#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 1,
+      "hash": "fe44586e32ced8d9",
+      "text": "Input: 60 fps video. Output: CSV of joint angles per frame."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Specs/Pipeline Spec#c0.p0",
+      "chunk": "Specs/Pipeline Spec#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 1,
+      "tokens": 19,
+      "text": "Input: 60 fps video. Output: CSV of joint angles per frame.",
+      "embed_text": "Pipeline Spec\n\nInput: 60 fps video. Output: CSV of joint angles per frame.",
+      "entities": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Specs/Pipeline Spec",
+      "name": "Pipeline Spec",
+      "kind": "note",
+      "type": "Document",
+      "descriptions": [
+        "A document specifying the input and output requirements for a video processing pipeline."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "note"
+      ],
+      "mentions": [
+        "Specs/Pipeline Spec#c0"
+      ],
+      "path": "Specs/Pipeline Spec.md",
+      "resolved": true,
+      "properties": {}
+    }
+  ],
+  "relationships": [],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

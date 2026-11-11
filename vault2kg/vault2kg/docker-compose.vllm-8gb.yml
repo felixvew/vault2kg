@@ -1,0 +1,72 @@
+# vLLM for vault2kg on a single 8 GB GPU (e.g. RTX 3070), English-only embeddings.
+# Same layout as docker-compose.vllm.yml, so vault2kg.py / kg_to_*.py find it automatically:
+#   chat        http://localhost:8000/v1   Qwen/Qwen3-4B-AWQ      (entity extraction, duplicate checks)
+#   embeddings  http://localhost:8001/v1   BAAI/bge-base-en-v1.5  (merging duplicates; Neo4j/LightRAG)
+#
+#   docker compose -f docker-compose.vllm-8gb.yml up -d --wait
+#   python vault2kg.py ~/Documents/MyVault
+#
+# Needs Docker Desktop (WSL2 backend) and an NVIDIA driver; no extra toolkit on Windows.
+# VRAM budget on 8 GB: Windows desktop ~0.8 GB + embed 0.12 (~1 GB) + chat 0.65 (~5.2 GB).
+# vLLM refuses to start if the requested share is not free, so close GPU-heavy apps first.
+# The embedder starts first; the chat model waits until it is healthy (parallel startup
+# would make vLLM misjudge free memory). The first start downloads ~3 GB of weights.
+#
+# Both models are ungated and Apache-2.0/MIT licensed; HF_TOKEN is optional (faster downloads).
+# If the chat container fails with "not enough KV cache", lower --max-model-len to 6144.
+services:
+  vllm-embed:
+    image: vllm/vllm-openai:latest
+    ports: ["8001:8000"]
+    ipc: host
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    command:
+      - --model=BAAI/bge-base-en-v1.5   # English, 768-dim, 512-token context (passages are <= 384)
+      - --runner=pooling                # vLLM before 0.10: replace with --task=embed
+      - --max-model-len=512
+      - --gpu-memory-utilization=0.12
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 15m
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: all, capabilities: [gpu]}]
+
+  vllm-chat:
+    image: vllm/vllm-openai:latest
+    ports: ["8000:8000"]
+    ipc: host
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    command:
+      - --model=Qwen/Qwen3-4B-AWQ       # 4-bit, ~2.7 GB; vault2kg switches Qwen3 thinking off
+      - --max-model-len=8192
+      - --max-num-seqs=16               # vault2kg sends 16 parallel requests to vLLM
+      - --gpu-memory-utilization=0.65
+    depends_on:
+      vllm-embed:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 20m
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: all, capabilities: [gpu]}]
+
+# Model weights live in a Docker volume inside WSL2: much faster to load than a
+# bind mount from the Windows filesystem. Remove with: docker volume rm <project>_hf-cache
+volumes:
+  hf-cache:

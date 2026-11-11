@@ -1,0 +1,156 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Tools/MediaPipe",
+    "path": "Tools/MediaPipe.md",
+    "title": "MediaPipe",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {
+      "type": "Tool",
+      "vendor": "Google"
+    },
+    "content_hash": "6c48daa2c0d3db45"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 2,
+      "relationships": 3,
+      "passages": 1
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "Tools/MediaPipe#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 5,
+      "end_line": 5,
+      "hash": "4439fc78e630bca9",
+      "text": "MediaPipe is a framework for on-device pose estimation. Used by [[Pose Pipeline]]."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Tools/MediaPipe#c0.p0",
+      "chunk": "Tools/MediaPipe#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 5,
+      "end_line": 5,
+      "tokens": 19,
+      "text": "MediaPipe is a framework for on-device pose estimation. Used by [[Pose Pipeline]].",
+      "embed_text": "MediaPipe\n\nMediaPipe is a framework for on-device pose estimation. Used by Pose Pipeline.",
+      "entities": [
+        "note:Projects/Pose Pipeline"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Projects/Pose Pipeline",
+      "name": "Pose Pipeline",
+      "kind": "note",
+      "type": "Project",
+      "descriptions": [
+        "Uses MediaPipe for pose estimation."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "Tools/MediaPipe#c0"
+      ],
+      "path": "Projects/Pose Pipeline.md",
+      "resolved": true
+    },
+    {
+      "id": "note:Tools/MediaPipe",
+      "name": "MediaPipe",
+      "kind": "note",
+      "type": "Tool",
+      "descriptions": [
+        "A framework for on-device pose estimation."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "note"
+      ],
+      "mentions": [
+        "Tools/MediaPipe#c0"
+      ],
+      "path": "Tools/MediaPipe.md",
+      "resolved": true,
+      "properties": {
+        "type": "Tool",
+        "vendor": "Google"
+      }
+    }
+  ],
+  "relationships": [
+    {
+      "id": "ef0e29749fe624af",
+      "source": "note:Tools/MediaPipe",
+      "type": "LINKS_TO",
+      "target": "note:Projects/Pose Pipeline",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Tools/MediaPipe#c0",
+          "line": 5,
+          "context": "MediaPipe is a framework for on-device pose estimation. Used by [[Pose Pipeline]]."
+        }
+      ]
+    },
+    {
+      "id": "e74b6523b944e2cd",
+      "source": "note:Tools/MediaPipe",
+      "type": "MENTIONS",
+      "target": "note:Projects/Pose Pipeline",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Tools/MediaPipe#c0"
+        }
+      ]
+    },
+    {
+      "id": "d323bd8ff18d6e2d",
+      "source": "note:Tools/MediaPipe",
+      "type": "USED_BY",
+      "target": "note:Projects/Pose Pipeline",
+      "descriptions": [
+        "MediaPipe is used by Pose Pipeline."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Tools/MediaPipe#c0"
+        }
+      ]
+    }
+  ],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

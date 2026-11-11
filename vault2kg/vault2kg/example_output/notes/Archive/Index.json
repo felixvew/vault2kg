@@ -1,0 +1,71 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Archive/Index",
+    "path": "Archive/Index.md",
+    "title": "Index",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {},
+    "content_hash": "3fe772b0fbcd8859"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "skipped_small_chunks": 1,
+      "entities": 1,
+      "relationships": 0,
+      "passages": 1
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "Archive/Index#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 1,
+      "hash": "122accf22d018284",
+      "text": "Old index."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Archive/Index#c0.p0",
+      "chunk": "Archive/Index#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 1,
+      "tokens": 5,
+      "text": "Old index.",
+      "embed_text": "Index\n\nOld index.",
+      "entities": []
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Archive/Index",
+      "name": "Archive/Index",
+      "kind": "note",
+      "type": "Note",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "note"
+      ],
+      "mentions": [],
+      "path": "Archive/Index.md",
+      "resolved": true,
+      "properties": {}
+    }
+  ],
+  "relationships": [],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

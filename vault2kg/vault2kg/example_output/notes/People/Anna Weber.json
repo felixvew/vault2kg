@@ -1,0 +1,612 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:People/Anna Weber",
+    "path": "People/Anna Weber.md",
+    "title": "Anna Weber",
+    "aliases": [
+      "Anna",
+      "A. Weber"
+    ],
+    "tags": [
+      "people",
+      "research/biomech",
+      "todo/followup"
+    ],
+    "frontmatter": {
+      "type": "Person",
+      "aliases": [
+        "Anna",
+        "A. Weber"
+      ],
+      "organization": "[[Northwind Labs]]",
+      "role": "Biomechanics researcher",
+      "tags": [
+        "people",
+        "research/biomech"
+      ]
+    },
+    "content_hash": "27a5aae935cd9287"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 11,
+      "relationships": 20,
+      "passages": 2
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "People/Anna Weber#c0",
+      "index": 0,
+      "heading_path": [
+        "Anna Weber"
+      ],
+      "start_line": 8,
+      "end_line": 14,
+      "hash": "578746d51237eb3a",
+      "text": "# Anna Weber\n\nAnna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]].\n\n## Tools\n\nShe prefers [[MediaPipe]] for quick prototypes and ViTPose for the final analysis. #todo/followup"
+    }
+  ],
+  "passages": [
+    {
+      "id": "People/Anna Weber#c0.p0",
+      "chunk": "People/Anna Weber#c0",
+      "index": 0,
+      "heading_path": [
+        "Anna Weber"
+      ],
+      "start_line": 8,
+      "end_line": 10,
+      "tokens": 28,
+      "text": "# Anna Weber\n\nAnna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]].",
+      "embed_text": "Anna Weber\n\nAnna leads the motion-capture work at Northwind Labs. She co-authored the Release Timing Study with Tom (Tom Becker).",
+      "entities": [
+        "note:Northwind Labs",
+        "note:Release Timing Study",
+        "note:Tom Becker"
+      ]
+    },
+    {
+      "id": "People/Anna Weber#c0.p1",
+      "chunk": "People/Anna Weber#c0",
+      "index": 1,
+      "heading_path": [
+        "Anna Weber",
+        "Tools"
+      ],
+      "start_line": 12,
+      "end_line": 14,
+      "tokens": 26,
+      "text": "## Tools\n\nShe prefers [[MediaPipe]] for quick prototypes and ViTPose for the final analysis. #todo/followup",
+      "embed_text": "Anna Weber > Tools\n\nShe prefers MediaPipe for quick prototypes and ViTPose for the final analysis. #todo/followup",
+      "entities": [
+        "ent:vitpose",
+        "note:Tools/MediaPipe"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Northwind Labs",
+      "name": "Northwind Labs",
+      "kind": "note",
+      "type": "Organization",
+      "descriptions": [
+        "The organization where Anna Weber works as a biomechanics researcher."
+      ],
+      "aliases": [],
+      "origins": [
+        "frontmatter",
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "note:People/Anna Weber",
+      "name": "Anna Weber",
+      "kind": "note",
+      "type": "Person",
+      "descriptions": [
+        "A biomechanics researcher at Northwind Labs leading motion-capture work."
+      ],
+      "aliases": [
+        "A. Weber",
+        "Anna"
+      ],
+      "origins": [
+        "llm",
+        "note"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ],
+      "path": "People/Anna Weber.md",
+      "resolved": true,
+      "properties": {
+        "type": "Person",
+        "role": "Biomechanics researcher"
+      }
+    },
+    {
+      "id": "note:Release Timing Study",
+      "name": "Release Timing Study",
+      "kind": "note",
+      "type": "Event",
+      "descriptions": [
+        "A study co-authored by Anna Weber and Tom Becker."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "note:Tom Becker",
+      "name": "Tom Becker",
+      "kind": "note",
+      "type": "Person",
+      "descriptions": [
+        "A colleague of Anna Weber who co-authored the Release Timing Study."
+      ],
+      "aliases": [
+        "Tom"
+      ],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "note:Tools/MediaPipe",
+      "name": "MediaPipe",
+      "kind": "note",
+      "type": "Tool",
+      "descriptions": [
+        "A tool preferred by Anna Weber for quick prototypes in motion-capture work."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ],
+      "path": "Tools/MediaPipe.md",
+      "resolved": true
+    },
+    {
+      "id": "ent:vitpose",
+      "name": "ViTPose",
+      "kind": "entity",
+      "type": "Tool",
+      "descriptions": [
+        "A tool used by Anna Weber for final analysis in motion-capture work."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm"
+      ],
+      "mentions": [
+        "People/Anna Weber#c0"
+      ]
+    },
+    {
+      "id": "tag:people",
+      "name": "people",
+      "kind": "tag",
+      "type": "Tag",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "tag"
+      ],
+      "mentions": []
+    },
+    {
+      "id": "tag:research",
+      "name": "research",
+      "kind": "tag",
+      "type": "Tag",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "tag"
+      ],
+      "mentions": []
+    },
+    {
+      "id": "tag:research/biomech",
+      "name": "research/biomech",
+      "kind": "tag",
+      "type": "Tag",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "tag"
+      ],
+      "mentions": []
+    },
+    {
+      "id": "tag:todo",
+      "name": "todo",
+      "kind": "tag",
+      "type": "Tag",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "tag"
+      ],
+      "mentions": []
+    },
+    {
+      "id": "tag:todo/followup",
+      "name": "todo/followup",
+      "kind": "tag",
+      "type": "Tag",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "tag"
+      ],
+      "mentions": []
+    }
+  ],
+  "relationships": [
+    {
+      "id": "17ecfdbda35842ab",
+      "source": "note:People/Anna Weber",
+      "type": "AUTHORED",
+      "target": "note:Release Timing Study",
+      "descriptions": [
+        "Anna Weber co-authored the Release Timing Study."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "41e3e1617925d15a",
+      "source": "note:People/Anna Weber",
+      "type": "CO_AUTHOR",
+      "target": "note:Tom Becker",
+      "descriptions": [
+        "Anna Weber co-authored the Release Timing Study with Tom Becker."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "c05c342e68a4e720",
+      "source": "note:People/Anna Weber",
+      "type": "HAS_TAG",
+      "target": "tag:people",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "tag"
+      ],
+      "evidence": [
+        {
+          "field": "tags"
+        }
+      ]
+    },
+    {
+      "id": "c3763c7551937671",
+      "source": "note:People/Anna Weber",
+      "type": "HAS_TAG",
+      "target": "tag:research/biomech",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "tag"
+      ],
+      "evidence": [
+        {
+          "field": "tags"
+        }
+      ]
+    },
+    {
+      "id": "a6de8528238b30d2",
+      "source": "note:People/Anna Weber",
+      "type": "HAS_TAG",
+      "target": "tag:todo/followup",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "tag"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0",
+          "line": 14
+        }
+      ]
+    },
+    {
+      "id": "6aefa3e552c0665b",
+      "source": "note:People/Anna Weber",
+      "type": "LINKS_TO",
+      "target": "note:Northwind Labs",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0",
+          "line": 10,
+          "context": "Anna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]]."
+        }
+      ]
+    },
+    {
+      "id": "b7129b001b0775d9",
+      "source": "note:People/Anna Weber",
+      "type": "LINKS_TO",
+      "target": "note:Release Timing Study",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0",
+          "line": 10,
+          "context": "Anna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]]."
+        }
+      ]
+    },
+    {
+      "id": "4ed2ade79d5ab6b1",
+      "source": "note:People/Anna Weber",
+      "type": "LINKS_TO",
+      "target": "note:Tom Becker",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0",
+          "line": 10,
+          "context": "Anna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]]."
+        }
+      ]
+    },
+    {
+      "id": "f295ec8598e9ff57",
+      "source": "note:People/Anna Weber",
+      "type": "LINKS_TO",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0",
+          "line": 14,
+          "context": "She prefers [[MediaPipe]] for quick prototypes and ViTPose for the final analysis. #todo/followup"
+        }
+      ]
+    },
+    {
+      "id": "15e8fc2d943fad5c",
+      "source": "note:People/Anna Weber",
+      "type": "MENTIONS",
+      "target": "ent:vitpose",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "19b415d36c27a304",
+      "source": "note:People/Anna Weber",
+      "type": "MENTIONS",
+      "target": "note:Northwind Labs",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "064464af012bceef",
+      "source": "note:People/Anna Weber",
+      "type": "MENTIONS",
+      "target": "note:Release Timing Study",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "377743bdd8ddade1",
+      "source": "note:People/Anna Weber",
+      "type": "MENTIONS",
+      "target": "note:Tom Becker",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "aa3c3525782095d2",
+      "source": "note:People/Anna Weber",
+      "type": "MENTIONS",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "2bd40ec64c239510",
+      "source": "note:People/Anna Weber",
+      "type": "ORGANIZATION",
+      "target": "note:Northwind Labs",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "frontmatter"
+      ],
+      "evidence": [
+        {
+          "field": "organization",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": "1d0321bf380e5917",
+      "source": "note:People/Anna Weber",
+      "type": "USES",
+      "target": "ent:vitpose",
+      "descriptions": [
+        "Anna Weber uses ViTPose for final analysis."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "788f2b4b5a94beb2",
+      "source": "note:People/Anna Weber",
+      "type": "USES",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [
+        "Anna Weber uses MediaPipe for quick prototypes."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "9ea80066192b3251",
+      "source": "note:People/Anna Weber",
+      "type": "WORKS_AT",
+      "target": "note:Northwind Labs",
+      "descriptions": [
+        "Anna Weber works at Northwind Labs."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "People/Anna Weber#c0"
+        }
+      ]
+    },
+    {
+      "id": "7c145a5e7ffa56ae",
+      "source": "tag:research/biomech",
+      "type": "SUBTAG_OF",
+      "target": "tag:research",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "tag"
+      ],
+      "evidence": []
+    },
+    {
+      "id": "3581049d29b9b009",
+      "source": "tag:todo/followup",
+      "type": "SUBTAG_OF",
+      "target": "tag:todo",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "tag"
+      ],
+      "evidence": []
+    }
+  ],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

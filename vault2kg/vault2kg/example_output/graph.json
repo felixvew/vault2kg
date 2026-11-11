@@ -1,0 +1,1484 @@
+{
+ "format": "vault2kg-graph",
+ "schema_version": "2.0",
+ "vault": "sample_vault",
+ "llm": "vLLM · Qwen/Qwen3-4B-AWQ · BAAI/bge-base-en-v1.5 for merging duplicates",
+ "generated_at": "2026-11-11T09:59:33+00:00",
+ "nodes": [
+  {
+   "id": "note:Archive/Index",
+   "name": "Archive/Index",
+   "kind": "note",
+   "type": "Document",
+   "description": "A document that is linked to by the Notes/Index document as part of the index.",
+   "descriptions": [
+    "A document that is linked to by the Notes/Index document as part of the index."
+   ],
+   "aliases": [],
+   "notes": [
+    "Archive/Index.md",
+    "Notes/Index.md"
+   ],
+   "origins": [
+    "llm",
+    "note",
+    "wikilink"
+   ],
+   "mentions": [
+    "Notes/Index#c0"
+   ],
+   "degree": 2,
+   "path": "Archive/Index.md",
+   "resolved": true
+  },
+  {
+   "id": "note:Broken",
+   "name": "Broken",
+   "kind": "note",
+   "type": "Note",
+   "description": "A note titled 'Broken' that mentions Anna Weber.",
+   "descriptions": [
+    "A note titled 'Broken' that mentions Anna Weber."
+   ],
+   "aliases": [],
+   "notes": [
+    "Broken.md"
+   ],
+   "origins": [
+    "llm",
+    "note"
+   ],
+   "mentions": [
+    "Broken#c0"
+   ],
+   "degree": 2,
+   "path": "Broken.md",
+   "resolved": true
+  },
+  {
+   "id": "note:Missing Note",
+   "name": "Missing Note",
+   "kind": "note",
+   "type": "Note",
+   "description": "A note that may already exist, as questioned in the Open questions section.",
+   "descriptions": [
+    "A note that may already exist, as questioned in the Open questions section."
+   ],
+   "aliases": [],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "origins": [
+    "llm",
+    "wikilink"
+   ],
+   "mentions": [
+    "Projects/Pose Pipeline#c0"
+   ],
+   "degree": 3,
+   "resolved": false
+  },
+  {
+   "id": "note:Northwind Labs",
+   "name": "Northwind Labs",
+   "kind": "note",
+   "type": "Organization",
+   "description": "The organization where Anna Weber works as a biomechanics researcher.",
+   "descriptions": [
+    "The organization where Anna Weber works as a biomechanics researcher."
+   ],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "frontmatter",
+    "llm",
+    "wikilink"
+   ],
+   "mentions": [
+    "People/Anna Weber#c0"
+   ],
+   "degree": 4,
+   "resolved": false
+  },
+  {
+   "id": "note:Notes/Index",
+   "name": "Notes/Index",
+   "kind": "note",
+   "type": "Note",
+   "description": "A note in the Obsidian vault that serves as an index for notes and archives. A document that contains local index links to the Index note and the Archive/Index.",
+   "descriptions": [
+    "A note in the Obsidian vault that serves as an index for notes and archives.",
+    "A document that contains local index links to the Index note and the Archive/Index."
+   ],
+   "aliases": [
+    "Index"
+   ],
+   "notes": [
+    "Notes/Index.md"
+   ],
+   "origins": [
+    "llm",
+    "note",
+    "wikilink"
+   ],
+   "mentions": [
+    "Notes/Index#c0"
+   ],
+   "degree": 2,
+   "path": "Notes/Index.md",
+   "resolved": true
+  },
+  {
+   "id": "note:People/Anna Weber",
+   "name": "Anna Weber",
+   "kind": "note",
+   "type": "Person",
+   "description": "A person mentioned in the note titled 'Broken'. A biomechanics researcher at Northwind Labs leading motion-capture work. The owner of the Pose Pipeline project.",
+   "descriptions": [
+    "A person mentioned in the note titled 'Broken'.",
+    "A biomechanics researcher at Northwind Labs leading motion-capture work.",
+    "The owner of the Pose Pipeline project."
+   ],
+   "aliases": [
+    "A. Weber",
+    "Anna"
+   ],
+   "notes": [
+    "Broken.md",
+    "People/Anna Weber.md",
+    "Projects/Pose Pipeline.md"
+   ],
+   "origins": [
+    "frontmatter",
+    "llm",
+    "note",
+    "wikilink"
+   ],
+   "mentions": [
+    "Broken#c0",
+    "People/Anna Weber#c0",
+    "Projects/Pose Pipeline#c0"
+   ],
+   "degree": 23,
+   "path": "People/Anna Weber.md",
+   "resolved": true,
+   "properties": {
+    "type": "Person",
+    "role": "Biomechanics researcher"
+   }
+  },
+  {
+   "id": "note:Projects/Pose Pipeline",
+   "name": "Pose Pipeline",
+   "kind": "note",
+   "type": "Project",
+   "description": "A project that processes archery training videos into joint-angle time series. Uses MediaPipe for pose estimation.",
+   "descriptions": [
+    "A project that processes archery training videos into joint-angle time series.",
+    "Uses MediaPipe for pose estimation."
+   ],
+   "aliases": [],
+   "notes": [
+    "Projects/Pose Pipeline.md",
+    "Tools/MediaPipe.md"
+   ],
+   "origins": [
+    "llm",
+    "note",
+    "wikilink"
+   ],
+   "mentions": [
+    "Projects/Pose Pipeline#c0",
+    "Tools/MediaPipe#c0"
+   ],
+   "degree": 20,
+   "path": "Projects/Pose Pipeline.md",
+   "resolved": true,
+   "properties": {
+    "type": "Project",
+    "status": "active",
+    "start": "2026-03-01"
+   }
+  },
+  {
+   "id": "note:Release Timing Study",
+   "name": "Release Timing Study",
+   "kind": "note",
+   "type": "Event",
+   "description": "A study co-authored by Anna Weber and Tom Becker. A related document to the Pose Pipeline project.",
+   "descriptions": [
+    "A study co-authored by Anna Weber and Tom Becker.",
+    "A related document to the Pose Pipeline project."
+   ],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md",
+    "Projects/Pose Pipeline.md"
+   ],
+   "origins": [
+    "frontmatter",
+    "llm",
+    "wikilink"
+   ],
+   "mentions": [
+    "People/Anna Weber#c0",
+    "Projects/Pose Pipeline#c0"
+   ],
+   "degree": 6,
+   "resolved": false
+  },
+  {
+   "id": "note:Specs/Pipeline Spec",
+   "name": "Pipeline Spec",
+   "kind": "note",
+   "type": "Document",
+   "description": "A document referenced in the Architecture section of the Pose Pipeline. A document specifying the input and output requirements for a video processing pipeline.",
+   "descriptions": [
+    "A document referenced in the Architecture section of the Pose Pipeline.",
+    "A document specifying the input and output requirements for a video processing pipeline."
+   ],
+   "aliases": [
+    "the spec"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md",
+    "Specs/Pipeline Spec.md"
+   ],
+   "origins": [
+    "llm",
+    "markdown",
+    "note"
+   ],
+   "mentions": [
+    "Projects/Pose Pipeline#c0",
+    "Specs/Pipeline Spec#c0"
+   ],
+   "degree": 3,
+   "path": "Specs/Pipeline Spec.md",
+   "resolved": true
+  },
+  {
+   "id": "note:Tom Becker",
+   "name": "Tom Becker",
+   "kind": "note",
+   "type": "Person",
+   "description": "A colleague of Anna Weber who co-authored the Release Timing Study.",
+   "descriptions": [
+    "A colleague of Anna Weber who co-authored the Release Timing Study."
+   ],
+   "aliases": [
+    "Tom"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "llm",
+    "wikilink"
+   ],
+   "mentions": [
+    "People/Anna Weber#c0"
+   ],
+   "degree": 3,
+   "resolved": false
+  },
+  {
+   "id": "note:Tools/MediaPipe",
+   "name": "MediaPipe",
+   "kind": "note",
+   "type": "Tool",
+   "description": "A tool preferred by Anna Weber for quick prototypes in motion-capture work. A tool used for keypoint detection in the Pose Pipeline. A framework for on-device pose estimation.",
+   "descriptions": [
+    "A tool preferred by Anna Weber for quick prototypes in motion-capture work.",
+    "A tool used for keypoint detection in the Pose Pipeline.",
+    "A framework for on-device pose estimation."
+   ],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md",
+    "Projects/Pose Pipeline.md",
+    "Tools/MediaPipe.md"
+   ],
+   "origins": [
+    "frontmatter",
+    "llm",
+    "note",
+    "wikilink"
+   ],
+   "mentions": [
+    "People/Anna Weber#c0",
+    "Projects/Pose Pipeline#c0",
+    "Tools/MediaPipe#c0"
+   ],
+   "degree": 10,
+   "path": "Tools/MediaPipe.md",
+   "resolved": true,
+   "properties": {
+    "type": "Tool",
+    "vendor": "Google"
+   }
+  },
+  {
+   "id": "ent:vitpose",
+   "name": "ViTPose",
+   "kind": "entity",
+   "type": "Tool",
+   "description": "A tool used by Anna Weber for final analysis in motion-capture work.",
+   "descriptions": [
+    "A tool used by Anna Weber for final analysis in motion-capture work."
+   ],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "llm"
+   ],
+   "mentions": [
+    "People/Anna Weber#c0"
+   ],
+   "degree": 2
+  },
+  {
+   "id": "tag:people",
+   "name": "people",
+   "kind": "tag",
+   "type": "Tag",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "tag"
+   ],
+   "mentions": [],
+   "degree": 1
+  },
+  {
+   "id": "tag:research",
+   "name": "research",
+   "kind": "tag",
+   "type": "Tag",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "tag"
+   ],
+   "mentions": [],
+   "degree": 1
+  },
+  {
+   "id": "tag:research/biomech",
+   "name": "research/biomech",
+   "kind": "tag",
+   "type": "Tag",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "tag"
+   ],
+   "mentions": [],
+   "degree": 2
+  },
+  {
+   "id": "tag:todo",
+   "name": "todo",
+   "kind": "tag",
+   "type": "Tag",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "tag"
+   ],
+   "mentions": [],
+   "degree": 1
+  },
+  {
+   "id": "tag:todo/followup",
+   "name": "todo/followup",
+   "kind": "tag",
+   "type": "Tag",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "origins": [
+    "tag"
+   ],
+   "mentions": [],
+   "degree": 2
+  },
+  {
+   "id": "file:attachments/pipeline.png",
+   "name": "pipeline.png",
+   "kind": "file",
+   "type": "Attachment",
+   "description": "",
+   "descriptions": [],
+   "aliases": [],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "origins": [
+    "embed"
+   ],
+   "mentions": [
+    "Projects/Pose Pipeline#c0"
+   ],
+   "degree": 1,
+   "path": "attachments/pipeline.png",
+   "resolved": true
+  }
+ ],
+ "edges": [
+  {
+   "id": "1c7c2300cef80bce",
+   "source": "note:Broken",
+   "type": "LINKS_TO",
+   "target": "note:People/Anna Weber",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "Broken.md"
+   ],
+   "chunks": [
+    "Broken#c0"
+   ]
+  },
+  {
+   "id": "c8b0aad44b73d6e4",
+   "source": "note:Broken",
+   "type": "MENTIONS",
+   "target": "note:People/Anna Weber",
+   "description": "The note 'Broken' mentions Anna Weber.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Broken.md"
+   ],
+   "chunks": [
+    "Broken#c0"
+   ]
+  },
+  {
+   "id": "4a9f79d237fa3260",
+   "source": "note:Notes/Index",
+   "type": "LINKS_TO",
+   "target": "note:Archive/Index",
+   "description": "The Notes/Index document links to the Archive/Index document.",
+   "confidence": 1.0,
+   "origins": [
+    "llm",
+    "wikilink"
+   ],
+   "notes": [
+    "Notes/Index.md"
+   ],
+   "chunks": [
+    "Notes/Index#c0"
+   ]
+  },
+  {
+   "id": "aba59f24b5837241",
+   "source": "note:Notes/Index",
+   "type": "MENTIONS",
+   "target": "note:Archive/Index",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Notes/Index.md"
+   ],
+   "chunks": [
+    "Notes/Index#c0"
+   ]
+  },
+  {
+   "id": "17ecfdbda35842ab",
+   "source": "note:People/Anna Weber",
+   "type": "AUTHORED",
+   "target": "note:Release Timing Study",
+   "description": "Anna Weber co-authored the Release Timing Study.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "41e3e1617925d15a",
+   "source": "note:People/Anna Weber",
+   "type": "CO_AUTHOR",
+   "target": "note:Tom Becker",
+   "description": "Anna Weber co-authored the Release Timing Study with Tom Becker.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "c05c342e68a4e720",
+   "source": "note:People/Anna Weber",
+   "type": "HAS_TAG",
+   "target": "tag:people",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "tag"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "c3763c7551937671",
+   "source": "note:People/Anna Weber",
+   "type": "HAS_TAG",
+   "target": "tag:research/biomech",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "tag"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "a6de8528238b30d2",
+   "source": "note:People/Anna Weber",
+   "type": "HAS_TAG",
+   "target": "tag:todo/followup",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "tag"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "6aefa3e552c0665b",
+   "source": "note:People/Anna Weber",
+   "type": "LINKS_TO",
+   "target": "note:Northwind Labs",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "b7129b001b0775d9",
+   "source": "note:People/Anna Weber",
+   "type": "LINKS_TO",
+   "target": "note:Release Timing Study",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "4ed2ade79d5ab6b1",
+   "source": "note:People/Anna Weber",
+   "type": "LINKS_TO",
+   "target": "note:Tom Becker",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "f295ec8598e9ff57",
+   "source": "note:People/Anna Weber",
+   "type": "LINKS_TO",
+   "target": "note:Tools/MediaPipe",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "15e8fc2d943fad5c",
+   "source": "note:People/Anna Weber",
+   "type": "MENTIONS",
+   "target": "ent:vitpose",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "19b415d36c27a304",
+   "source": "note:People/Anna Weber",
+   "type": "MENTIONS",
+   "target": "note:Northwind Labs",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "064464af012bceef",
+   "source": "note:People/Anna Weber",
+   "type": "MENTIONS",
+   "target": "note:Release Timing Study",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "377743bdd8ddade1",
+   "source": "note:People/Anna Weber",
+   "type": "MENTIONS",
+   "target": "note:Tom Becker",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "aa3c3525782095d2",
+   "source": "note:People/Anna Weber",
+   "type": "MENTIONS",
+   "target": "note:Tools/MediaPipe",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "2bd40ec64c239510",
+   "source": "note:People/Anna Weber",
+   "type": "ORGANIZATION",
+   "target": "note:Northwind Labs",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "frontmatter"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "1d0321bf380e5917",
+   "source": "note:People/Anna Weber",
+   "type": "USES",
+   "target": "ent:vitpose",
+   "description": "Anna Weber uses ViTPose for final analysis.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "788f2b4b5a94beb2",
+   "source": "note:People/Anna Weber",
+   "type": "USES",
+   "target": "note:Tools/MediaPipe",
+   "description": "Anna Weber uses MediaPipe for quick prototypes.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "9ea80066192b3251",
+   "source": "note:People/Anna Weber",
+   "type": "WORKS_AT",
+   "target": "note:Northwind Labs",
+   "description": "Anna Weber works at Northwind Labs.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": [
+    "People/Anna Weber#c0"
+   ]
+  },
+  {
+   "id": "3fb8046899274a90",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "EMBEDS",
+   "target": "file:attachments/pipeline.png",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "embed"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "71412339a3ca813f",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "LINKS_TO",
+   "target": "note:Missing Note",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "e9bb092793bd02d2",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "LINKS_TO",
+   "target": "note:Specs/Pipeline Spec",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "markdown_link"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "eec4cb0463152f48",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "LINKS_TO",
+   "target": "note:Tools/MediaPipe",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "32069f54d1cc1f66",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "MENTIONS",
+   "target": "note:Missing Note",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "44348d9462115411",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "MENTIONS",
+   "target": "note:People/Anna Weber",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "a2a295900a9a7afb",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "MENTIONS",
+   "target": "note:Release Timing Study",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "c5d4a7afa8c89287",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "MENTIONS",
+   "target": "note:Specs/Pipeline Spec",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "32b39e73fee3c39b",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "MENTIONS",
+   "target": "note:Tools/MediaPipe",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "bfdf179702101160",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "OWNED_BY",
+   "target": "note:People/Anna Weber",
+   "description": "The Pose Pipeline is owned by Anna Weber.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "cf77ac13f7773a81",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "OWNER",
+   "target": "note:People/Anna Weber",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "frontmatter"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "42c2750f5121bfb8",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "REFERENCES",
+   "target": "note:Specs/Pipeline Spec",
+   "description": "The Pose Pipeline references the Pipeline Spec document.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "300e1cc1086a0e0b",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "RELATED",
+   "target": "note:Release Timing Study",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "frontmatter"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "2f71678d5b321159",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "RELATED",
+   "target": "note:Tools/MediaPipe",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "frontmatter"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "f37457c204006bc3",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "RELATED_TO",
+   "target": "note:Missing Note",
+   "description": "The Pose Pipeline is related to the Missing Note.",
+   "confidence": 0.5,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "ddc63f38fc344a3f",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "RELATED_TO",
+   "target": "note:Release Timing Study",
+   "description": "The Pose Pipeline is related to the Release Timing Study.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "326b606e5d734eaf",
+   "source": "note:Projects/Pose Pipeline",
+   "type": "USES",
+   "target": "note:Tools/MediaPipe",
+   "description": "The Pose Pipeline uses MediaPipe for keypoint detection.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Projects/Pose Pipeline.md"
+   ],
+   "chunks": [
+    "Projects/Pose Pipeline#c0"
+   ]
+  },
+  {
+   "id": "ef0e29749fe624af",
+   "source": "note:Tools/MediaPipe",
+   "type": "LINKS_TO",
+   "target": "note:Projects/Pose Pipeline",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "wikilink"
+   ],
+   "notes": [
+    "Tools/MediaPipe.md"
+   ],
+   "chunks": [
+    "Tools/MediaPipe#c0"
+   ]
+  },
+  {
+   "id": "e74b6523b944e2cd",
+   "source": "note:Tools/MediaPipe",
+   "type": "MENTIONS",
+   "target": "note:Projects/Pose Pipeline",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Tools/MediaPipe.md"
+   ],
+   "chunks": [
+    "Tools/MediaPipe#c0"
+   ]
+  },
+  {
+   "id": "d323bd8ff18d6e2d",
+   "source": "note:Tools/MediaPipe",
+   "type": "USED_BY",
+   "target": "note:Projects/Pose Pipeline",
+   "description": "MediaPipe is used by Pose Pipeline.",
+   "confidence": 1.0,
+   "origins": [
+    "llm"
+   ],
+   "notes": [
+    "Tools/MediaPipe.md"
+   ],
+   "chunks": [
+    "Tools/MediaPipe#c0"
+   ]
+  },
+  {
+   "id": "7c145a5e7ffa56ae",
+   "source": "tag:research/biomech",
+   "type": "SUBTAG_OF",
+   "target": "tag:research",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "tag"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": []
+  },
+  {
+   "id": "3581049d29b9b009",
+   "source": "tag:todo/followup",
+   "type": "SUBTAG_OF",
+   "target": "tag:todo",
+   "description": "",
+   "confidence": null,
+   "origins": [
+    "tag"
+   ],
+   "notes": [
+    "People/Anna Weber.md"
+   ],
+   "chunks": []
+  }
+ ],
+ "chunks": [
+  {
+   "id": "Archive/Index#c0",
+   "note": "note:Archive/Index",
+   "path": "Archive/Index.md",
+   "title": "Index",
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 1,
+   "text": "Old index.",
+   "entities": [],
+   "passages": [
+    "Archive/Index#c0.p0"
+   ]
+  },
+  {
+   "id": "Broken#c0",
+   "note": "note:Broken",
+   "path": "Broken.md",
+   "title": "Broken",
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 4,
+   "text": "---\ntitle: [unclosed\n---\nBody still gets processed. Mentions [[Anna Weber]].",
+   "entities": [
+    "note:Broken",
+    "note:People/Anna Weber"
+   ],
+   "passages": [
+    "Broken#c0.p0"
+   ]
+  },
+  {
+   "id": "Notes/Index#c0",
+   "note": "note:Notes/Index",
+   "path": "Notes/Index.md",
+   "title": "Index",
+   "heading_path": [
+    "Notes index"
+   ],
+   "start_line": 1,
+   "end_line": 2,
+   "text": "# Notes index\nLocal index links to [[Index]] (this folder) and the [[Archive/Index]].",
+   "entities": [
+    "note:Archive/Index",
+    "note:Notes/Index"
+   ],
+   "passages": [
+    "Notes/Index#c0.p0"
+   ]
+  },
+  {
+   "id": "People/Anna Weber#c0",
+   "note": "note:People/Anna Weber",
+   "path": "People/Anna Weber.md",
+   "title": "Anna Weber",
+   "heading_path": [
+    "Anna Weber"
+   ],
+   "start_line": 8,
+   "end_line": 14,
+   "text": "# Anna Weber\n\nAnna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]].\n\n## Tools\n\nShe prefers [[MediaPipe]] for quick prototypes and ViTPose for the final analysis. #todo/followup",
+   "entities": [
+    "ent:vitpose",
+    "note:Northwind Labs",
+    "note:People/Anna Weber",
+    "note:Release Timing Study",
+    "note:Tom Becker",
+    "note:Tools/MediaPipe"
+   ],
+   "passages": [
+    "People/Anna Weber#c0.p0",
+    "People/Anna Weber#c0.p1"
+   ]
+  },
+  {
+   "id": "Projects/Pose Pipeline#c0",
+   "note": "note:Projects/Pose Pipeline",
+   "path": "Projects/Pose Pipeline.md",
+   "title": "Pose Pipeline",
+   "heading_path": [],
+   "start_line": 10,
+   "end_line": 24,
+   "text": "The Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe).\n\n```python\n# [[NotALink]] #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does [[Missing Note]] already exist? Compare with the [[#Architecture]] section.\n- Use `#inline-code` tags? No.",
+   "entities": [
+    "file:attachments/pipeline.png",
+    "note:Missing Note",
+    "note:People/Anna Weber",
+    "note:Projects/Pose Pipeline",
+    "note:Release Timing Study",
+    "note:Specs/Pipeline Spec",
+    "note:Tools/MediaPipe"
+   ],
+   "passages": [
+    "Projects/Pose Pipeline#c0.p0",
+    "Projects/Pose Pipeline#c0.p1"
+   ]
+  },
+  {
+   "id": "Specs/Pipeline Spec#c0",
+   "note": "note:Specs/Pipeline Spec",
+   "path": "Specs/Pipeline Spec.md",
+   "title": "Pipeline Spec",
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 1,
+   "text": "Input: 60 fps video. Output: CSV of joint angles per frame.",
+   "entities": [
+    "note:Specs/Pipeline Spec"
+   ],
+   "passages": [
+    "Specs/Pipeline Spec#c0.p0"
+   ]
+  },
+  {
+   "id": "Tools/MediaPipe#c0",
+   "note": "note:Tools/MediaPipe",
+   "path": "Tools/MediaPipe.md",
+   "title": "MediaPipe",
+   "heading_path": [],
+   "start_line": 5,
+   "end_line": 5,
+   "text": "MediaPipe is a framework for on-device pose estimation. Used by [[Pose Pipeline]].",
+   "entities": [
+    "note:Projects/Pose Pipeline",
+    "note:Tools/MediaPipe"
+   ],
+   "passages": [
+    "Tools/MediaPipe#c0.p0"
+   ]
+  }
+ ],
+ "passages": [
+  {
+   "id": "Archive/Index#c0.p0",
+   "chunk": "Archive/Index#c0",
+   "index": 0,
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 1,
+   "tokens": 5,
+   "text": "Old index.",
+   "embed_text": "Index\n\nOld index.",
+   "entities": [],
+   "note": "note:Archive/Index",
+   "path": "Archive/Index.md"
+  },
+  {
+   "id": "Broken#c0.p0",
+   "chunk": "Broken#c0",
+   "index": 0,
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 4,
+   "tokens": 20,
+   "text": "---\ntitle: [unclosed\n---\nBody still gets processed. Mentions [[Anna Weber]].",
+   "embed_text": "Broken\n\n---\ntitle: [unclosed\n---\nBody still gets processed. Mentions Anna Weber.",
+   "entities": [
+    "note:People/Anna Weber"
+   ],
+   "note": "note:Broken",
+   "path": "Broken.md"
+  },
+  {
+   "id": "Notes/Index#c0.p0",
+   "chunk": "Notes/Index#c0",
+   "index": 0,
+   "heading_path": [
+    "Notes index"
+   ],
+   "start_line": 1,
+   "end_line": 2,
+   "tokens": 18,
+   "text": "# Notes index\nLocal index links to [[Index]] (this folder) and the [[Archive/Index]].",
+   "embed_text": "Index > Notes index\n\nLocal index links to Index (this folder) and the Index.",
+   "entities": [
+    "note:Archive/Index"
+   ],
+   "note": "note:Notes/Index",
+   "path": "Notes/Index.md"
+  },
+  {
+   "id": "People/Anna Weber#c0.p0",
+   "chunk": "People/Anna Weber#c0",
+   "index": 0,
+   "heading_path": [
+    "Anna Weber"
+   ],
+   "start_line": 8,
+   "end_line": 10,
+   "tokens": 28,
+   "text": "# Anna Weber\n\nAnna leads the motion-capture work at [[Northwind Labs]]. She co-authored the [[Release Timing Study]] with [[Tom Becker|Tom]].",
+   "embed_text": "Anna Weber\n\nAnna leads the motion-capture work at Northwind Labs. She co-authored the Release Timing Study with Tom (Tom Becker).",
+   "entities": [
+    "note:Northwind Labs",
+    "note:Release Timing Study",
+    "note:Tom Becker"
+   ],
+   "note": "note:People/Anna Weber",
+   "path": "People/Anna Weber.md"
+  },
+  {
+   "id": "People/Anna Weber#c0.p1",
+   "chunk": "People/Anna Weber#c0",
+   "index": 1,
+   "heading_path": [
+    "Anna Weber",
+    "Tools"
+   ],
+   "start_line": 12,
+   "end_line": 14,
+   "tokens": 26,
+   "text": "## Tools\n\nShe prefers [[MediaPipe]] for quick prototypes and ViTPose for the final analysis. #todo/followup",
+   "embed_text": "Anna Weber > Tools\n\nShe prefers MediaPipe for quick prototypes and ViTPose for the final analysis. #todo/followup",
+   "entities": [
+    "ent:vitpose",
+    "note:Tools/MediaPipe"
+   ],
+   "note": "note:People/Anna Weber",
+   "path": "People/Anna Weber.md"
+  },
+  {
+   "id": "Projects/Pose Pipeline#c0.p0",
+   "chunk": "Projects/Pose Pipeline#c0",
+   "index": 0,
+   "heading_path": [],
+   "start_line": 10,
+   "end_line": 14,
+   "tokens": 64,
+   "text": "The Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe).",
+   "embed_text": "Pose Pipeline\n\nThe Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then MediaPipe for keypoints. See pipeline.png and the spec (Pipeline Spec). Background reading: MediaPipe docs (https://developers.google.com/mediapipe).",
+   "entities": [
+    "note:Specs/Pipeline Spec",
+    "note:Tools/MediaPipe"
+   ],
+   "note": "note:Projects/Pose Pipeline",
+   "path": "Projects/Pose Pipeline.md"
+  },
+  {
+   "id": "Projects/Pose Pipeline#c0.p1",
+   "chunk": "Projects/Pose Pipeline#c0",
+   "index": 1,
+   "heading_path": [
+    "Architecture"
+   ],
+   "start_line": 16,
+   "end_line": 24,
+   "tokens": 53,
+   "text": "```python\n# [[NotALink]] #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does [[Missing Note]] already exist? Compare with the [[#Architecture]] section.\n- Use `#inline-code` tags? No.",
+   "embed_text": "Pose Pipeline > Architecture\n\n```python\n# NotALink #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does Missing Note already exist? Compare with the Architecture section.\n- Use `#inline-code` tags? No.",
+   "entities": [
+    "note:Missing Note"
+   ],
+   "note": "note:Projects/Pose Pipeline",
+   "path": "Projects/Pose Pipeline.md"
+  },
+  {
+   "id": "Specs/Pipeline Spec#c0.p0",
+   "chunk": "Specs/Pipeline Spec#c0",
+   "index": 0,
+   "heading_path": [],
+   "start_line": 1,
+   "end_line": 1,
+   "tokens": 19,
+   "text": "Input: 60 fps video. Output: CSV of joint angles per frame.",
+   "embed_text": "Pipeline Spec\n\nInput: 60 fps video. Output: CSV of joint angles per frame.",
+   "entities": [],
+   "note": "note:Specs/Pipeline Spec",
+   "path": "Specs/Pipeline Spec.md"
+  },
+  {
+   "id": "Tools/MediaPipe#c0.p0",
+   "chunk": "Tools/MediaPipe#c0",
+   "index": 0,
+   "heading_path": [],
+   "start_line": 5,
+   "end_line": 5,
+   "tokens": 19,
+   "text": "MediaPipe is a framework for on-device pose estimation. Used by [[Pose Pipeline]].",
+   "embed_text": "MediaPipe\n\nMediaPipe is a framework for on-device pose estimation. Used by Pose Pipeline.",
+   "entities": [
+    "note:Projects/Pose Pipeline"
+   ],
+   "note": "note:Tools/MediaPipe",
+   "path": "Tools/MediaPipe.md"
+  }
+ ],
+ "stats": {
+  "notes": 7,
+  "nodes": 18,
+  "entities": 1,
+  "tags": 5,
+  "files": 1,
+  "edges": 44,
+  "chunks": 7,
+  "passages": 9,
+  "merged": 0
+ }
+}

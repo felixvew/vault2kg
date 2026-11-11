@@ -1,0 +1,139 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Broken",
+    "path": "Broken.md",
+    "title": "Broken",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {},
+    "content_hash": "58005a6ff52379fd"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 2,
+      "relationships": 2,
+      "passages": 1
+    },
+    "errors": [
+      {
+        "stage": "frontmatter",
+        "error": "invalid YAML frontmatter (ParserError), kept as text"
+      }
+    ]
+  },
+  "chunks": [
+    {
+      "id": "Broken#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 4,
+      "hash": "fdcbdd667e360169",
+      "text": "---\ntitle: [unclosed\n---\nBody still gets processed. Mentions [[Anna Weber]]."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Broken#c0.p0",
+      "chunk": "Broken#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 1,
+      "end_line": 4,
+      "tokens": 20,
+      "text": "---\ntitle: [unclosed\n---\nBody still gets processed. Mentions [[Anna Weber]].",
+      "embed_text": "Broken\n\n---\ntitle: [unclosed\n---\nBody still gets processed. Mentions Anna Weber.",
+      "entities": [
+        "note:People/Anna Weber"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Broken",
+      "name": "Broken",
+      "kind": "note",
+      "type": "Other",
+      "descriptions": [
+        "A note titled 'Broken' that mentions Anna Weber."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "note"
+      ],
+      "mentions": [
+        "Broken#c0"
+      ],
+      "path": "Broken.md",
+      "resolved": true,
+      "properties": {}
+    },
+    {
+      "id": "note:People/Anna Weber",
+      "name": "Anna Weber",
+      "kind": "note",
+      "type": "Person",
+      "descriptions": [
+        "A person mentioned in the note titled 'Broken'."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "Broken#c0"
+      ],
+      "path": "People/Anna Weber.md",
+      "resolved": true
+    }
+  ],
+  "relationships": [
+    {
+      "id": "1c7c2300cef80bce",
+      "source": "note:Broken",
+      "type": "LINKS_TO",
+      "target": "note:People/Anna Weber",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Broken#c0",
+          "line": 4,
+          "context": "Body still gets processed. Mentions [[Anna Weber]]."
+        }
+      ]
+    },
+    {
+      "id": "c8b0aad44b73d6e4",
+      "source": "note:Broken",
+      "type": "MENTIONS",
+      "target": "note:People/Anna Weber",
+      "descriptions": [
+        "The note 'Broken' mentions Anna Weber."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Broken#c0"
+        }
+      ]
+    }
+  ],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

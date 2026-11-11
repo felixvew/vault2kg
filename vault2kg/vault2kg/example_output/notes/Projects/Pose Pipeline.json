@@ -1,0 +1,524 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Projects/Pose Pipeline",
+    "path": "Projects/Pose Pipeline.md",
+    "title": "Pose Pipeline",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {
+      "type": "Project",
+      "status": "active",
+      "owner": "[[Anna Weber]]",
+      "related": [
+        "[[Release Timing Study]]",
+        [
+          [
+            "MediaPipe"
+          ]
+        ]
+      ],
+      "start": "2026-03-01"
+    },
+    "content_hash": "77df170329cb5b6f"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 7,
+      "relationships": 17,
+      "passages": 2
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "Projects/Pose Pipeline#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 10,
+      "end_line": 24,
+      "hash": "22391e07b05b9ead",
+      "text": "The Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe).\n\n```python\n# [[NotALink]] #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does [[Missing Note]] already exist? Compare with the [[#Architecture]] section.\n- Use `#inline-code` tags? No."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Projects/Pose Pipeline#c0.p0",
+      "chunk": "Projects/Pose Pipeline#c0",
+      "index": 0,
+      "heading_path": [],
+      "start_line": 10,
+      "end_line": 14,
+      "tokens": 64,
+      "text": "The Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe).",
+      "embed_text": "Pose Pipeline\n\nThe Pose Pipeline turns archery training videos into joint-angle time series.\n\n## Architecture\n\nThe pipeline runs RT-DETR for person detection, then MediaPipe for keypoints. See pipeline.png and the spec (Pipeline Spec). Background reading: MediaPipe docs (https://developers.google.com/mediapipe).",
+      "entities": [
+        "note:Specs/Pipeline Spec",
+        "note:Tools/MediaPipe"
+      ]
+    },
+    {
+      "id": "Projects/Pose Pipeline#c0.p1",
+      "chunk": "Projects/Pose Pipeline#c0",
+      "index": 1,
+      "heading_path": [
+        "Architecture"
+      ],
+      "start_line": 16,
+      "end_line": 24,
+      "tokens": 53,
+      "text": "```python\n# [[NotALink]] #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does [[Missing Note]] already exist? Compare with the [[#Architecture]] section.\n- Use `#inline-code` tags? No.",
+      "embed_text": "Pose Pipeline > Architecture\n\n```python\n# NotALink #notatag\nangles = compute(keypoints)\n```\n\n## Open questions\n\n- Does Missing Note already exist? Compare with the Architecture section.\n- Use `#inline-code` tags? No.",
+      "entities": [
+        "note:Missing Note"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Missing Note",
+      "name": "Missing Note",
+      "kind": "note",
+      "type": "Other",
+      "descriptions": [
+        "A note that may already exist, as questioned in the Open questions section."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "note:People/Anna Weber",
+      "name": "Anna Weber",
+      "kind": "note",
+      "type": "Person",
+      "descriptions": [
+        "The owner of the Pose Pipeline project."
+      ],
+      "aliases": [],
+      "origins": [
+        "frontmatter",
+        "llm"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "path": "People/Anna Weber.md",
+      "resolved": true
+    },
+    {
+      "id": "note:Projects/Pose Pipeline",
+      "name": "Pose Pipeline",
+      "kind": "note",
+      "type": "Project",
+      "descriptions": [
+        "A project that processes archery training videos into joint-angle time series."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "note"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "path": "Projects/Pose Pipeline.md",
+      "resolved": true,
+      "properties": {
+        "type": "Project",
+        "status": "active",
+        "start": "2026-03-01"
+      }
+    },
+    {
+      "id": "note:Release Timing Study",
+      "name": "Release Timing Study",
+      "kind": "note",
+      "type": "Document",
+      "descriptions": [
+        "A related document to the Pose Pipeline project."
+      ],
+      "aliases": [],
+      "origins": [
+        "frontmatter",
+        "llm"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "resolved": false
+    },
+    {
+      "id": "note:Specs/Pipeline Spec",
+      "name": "Pipeline Spec",
+      "kind": "note",
+      "type": "Document",
+      "descriptions": [
+        "A document referenced in the Architecture section of the Pose Pipeline."
+      ],
+      "aliases": [
+        "the spec"
+      ],
+      "origins": [
+        "llm",
+        "markdown"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "path": "Specs/Pipeline Spec.md",
+      "resolved": true
+    },
+    {
+      "id": "note:Tools/MediaPipe",
+      "name": "MediaPipe",
+      "kind": "note",
+      "type": "Tool",
+      "descriptions": [
+        "A tool used for keypoint detection in the Pose Pipeline."
+      ],
+      "aliases": [],
+      "origins": [
+        "frontmatter",
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "path": "Tools/MediaPipe.md",
+      "resolved": true
+    },
+    {
+      "id": "file:attachments/pipeline.png",
+      "name": "pipeline.png",
+      "kind": "file",
+      "type": "Attachment",
+      "descriptions": [],
+      "aliases": [],
+      "origins": [
+        "embed"
+      ],
+      "mentions": [
+        "Projects/Pose Pipeline#c0"
+      ],
+      "path": "attachments/pipeline.png",
+      "resolved": true
+    }
+  ],
+  "relationships": [
+    {
+      "id": "3fb8046899274a90",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "EMBEDS",
+      "target": "file:attachments/pipeline.png",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "embed"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0",
+          "line": 14,
+          "context": "The pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe)."
+        }
+      ]
+    },
+    {
+      "id": "71412339a3ca813f",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "LINKS_TO",
+      "target": "note:Missing Note",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0",
+          "line": 23,
+          "context": "- Does [[Missing Note]] already exist? Compare with the [[#Architecture]] section."
+        }
+      ]
+    },
+    {
+      "id": "e9bb092793bd02d2",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "LINKS_TO",
+      "target": "note:Specs/Pipeline Spec",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "markdown_link"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0",
+          "line": 14,
+          "context": "The pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe)."
+        }
+      ]
+    },
+    {
+      "id": "eec4cb0463152f48",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "LINKS_TO",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0",
+          "line": 14,
+          "context": "The pipeline runs RT-DETR for person detection, then [[MediaPipe]] for keypoints. See ![[pipeline.png]] and [the spec](../Specs/Pipeline%20Spec.md). Background reading: [MediaPipe docs](https://developers.google.com/mediapipe)."
+        }
+      ]
+    },
+    {
+      "id": "32069f54d1cc1f66",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "MENTIONS",
+      "target": "note:Missing Note",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "44348d9462115411",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "MENTIONS",
+      "target": "note:People/Anna Weber",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "a2a295900a9a7afb",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "MENTIONS",
+      "target": "note:Release Timing Study",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "c5d4a7afa8c89287",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "MENTIONS",
+      "target": "note:Specs/Pipeline Spec",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "32b39e73fee3c39b",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "MENTIONS",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "bfdf179702101160",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "OWNED_BY",
+      "target": "note:People/Anna Weber",
+      "descriptions": [
+        "The Pose Pipeline is owned by Anna Weber."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "cf77ac13f7773a81",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "OWNER",
+      "target": "note:People/Anna Weber",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "frontmatter"
+      ],
+      "evidence": [
+        {
+          "field": "owner",
+          "line": 4
+        }
+      ]
+    },
+    {
+      "id": "42c2750f5121bfb8",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "REFERENCES",
+      "target": "note:Specs/Pipeline Spec",
+      "descriptions": [
+        "The Pose Pipeline references the Pipeline Spec document."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "300e1cc1086a0e0b",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "RELATED",
+      "target": "note:Release Timing Study",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "frontmatter"
+      ],
+      "evidence": [
+        {
+          "field": "related",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "2f71678d5b321159",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "RELATED",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "frontmatter"
+      ],
+      "evidence": [
+        {
+          "field": "related",
+          "line": 5
+        }
+      ]
+    },
+    {
+      "id": "f37457c204006bc3",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "RELATED_TO",
+      "target": "note:Missing Note",
+      "descriptions": [
+        "The Pose Pipeline is related to the Missing Note."
+      ],
+      "confidence": 0.5,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "ddc63f38fc344a3f",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "RELATED_TO",
+      "target": "note:Release Timing Study",
+      "descriptions": [
+        "The Pose Pipeline is related to the Release Timing Study."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    },
+    {
+      "id": "326b606e5d734eaf",
+      "source": "note:Projects/Pose Pipeline",
+      "type": "USES",
+      "target": "note:Tools/MediaPipe",
+      "descriptions": [
+        "The Pose Pipeline uses MediaPipe for keypoint detection."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Projects/Pose Pipeline#c0"
+        }
+      ]
+    }
+  ],
+  "external_links": [
+    {
+      "url": "https://developers.google.com/mediapipe",
+      "text": "MediaPipe docs",
+      "line": 14
+    }
+  ],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}

@@ -1,0 +1,146 @@
+{
+  "schema_version": "2.0",
+  "note": {
+    "id": "note:Notes/Index",
+    "path": "Notes/Index.md",
+    "title": "Index",
+    "aliases": [],
+    "tags": [],
+    "frontmatter": {},
+    "content_hash": "965b3eb777b03ae3"
+  },
+  "extraction": {
+    "llm": {
+      "model": "Qwen/Qwen3-4B-AWQ",
+      "prompt_version": "3"
+    },
+    "stats": {
+      "chunks": 1,
+      "llm_chunks": 1,
+      "entities": 2,
+      "relationships": 2,
+      "passages": 1
+    },
+    "errors": []
+  },
+  "chunks": [
+    {
+      "id": "Notes/Index#c0",
+      "index": 0,
+      "heading_path": [
+        "Notes index"
+      ],
+      "start_line": 1,
+      "end_line": 2,
+      "hash": "fc9d16ba1091e1c4",
+      "text": "# Notes index\nLocal index links to [[Index]] (this folder) and the [[Archive/Index]]."
+    }
+  ],
+  "passages": [
+    {
+      "id": "Notes/Index#c0.p0",
+      "chunk": "Notes/Index#c0",
+      "index": 0,
+      "heading_path": [
+        "Notes index"
+      ],
+      "start_line": 1,
+      "end_line": 2,
+      "tokens": 18,
+      "text": "# Notes index\nLocal index links to [[Index]] (this folder) and the [[Archive/Index]].",
+      "embed_text": "Index > Notes index\n\nLocal index links to Index (this folder) and the Index.",
+      "entities": [
+        "note:Archive/Index"
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "id": "note:Archive/Index",
+      "name": "Archive/Index",
+      "kind": "note",
+      "type": "Document",
+      "descriptions": [
+        "A document that is linked to by the Notes/Index document as part of the index."
+      ],
+      "aliases": [],
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "mentions": [
+        "Notes/Index#c0"
+      ],
+      "path": "Archive/Index.md",
+      "resolved": true
+    },
+    {
+      "id": "note:Notes/Index",
+      "name": "Notes/Index",
+      "kind": "note",
+      "type": "Other",
+      "descriptions": [
+        "A note in the Obsidian vault that serves as an index for notes and archives.",
+        "A document that contains local index links to the Index note and the Archive/Index."
+      ],
+      "aliases": [
+        "Index"
+      ],
+      "origins": [
+        "llm",
+        "note",
+        "wikilink"
+      ],
+      "mentions": [
+        "Notes/Index#c0"
+      ],
+      "path": "Notes/Index.md",
+      "resolved": true,
+      "properties": {}
+    }
+  ],
+  "relationships": [
+    {
+      "id": "4a9f79d237fa3260",
+      "source": "note:Notes/Index",
+      "type": "LINKS_TO",
+      "target": "note:Archive/Index",
+      "descriptions": [
+        "The Notes/Index document links to the Archive/Index document."
+      ],
+      "confidence": 1.0,
+      "origins": [
+        "llm",
+        "wikilink"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Notes/Index#c0",
+          "line": 2,
+          "context": "Local index links to [[Index]] (this folder) and the [[Archive/Index]]."
+        },
+        {
+          "chunk_id": "Notes/Index#c0"
+        }
+      ]
+    },
+    {
+      "id": "aba59f24b5837241",
+      "source": "note:Notes/Index",
+      "type": "MENTIONS",
+      "target": "note:Archive/Index",
+      "descriptions": [],
+      "confidence": null,
+      "origins": [
+        "llm"
+      ],
+      "evidence": [
+        {
+          "chunk_id": "Notes/Index#c0"
+        }
+      ]
+    }
+  ],
+  "external_links": [],
+  "generated_at": "2026-11-11T09:59:33+00:00"
+}
