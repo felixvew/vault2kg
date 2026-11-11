@@ -328,3 +328,7 @@ The tests run offline. The LLM, Ollama, `neo4j` and `lightrag` are all replaced 
 ---
 
 Link resolution follows [Kwipu](https://github.com/benmaster82/Kwipu). Merging duplicates follows [Simple Graph Builder](https://github.com/junhewk/simple-graph-builder). Both are MIT-licensed.
+
+## License
+
+MIT, see [LICENSE](LICENSE).

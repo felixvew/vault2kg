@@ -24,3 +24,5 @@ rag_storage/
 __pycache__/
 .pytest_cache/
 *.pyc
+
+*.env
