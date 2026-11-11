@@ -2,10 +2,10 @@
 """kg_to_lightrag - load graph.json into LightRAG (as a custom knowledge graph).
 
     pip install lightrag-hku
-    python kg_to_lightrag.py ~/Documents/MyVault-kg --working-dir ./rag
+    python src/kg_to_lightrag.py ~/Documents/MyVault-kg --working-dir ./rag
 
     # or only write LightRAG's custom-KG JSON (no lightrag needed):
-    python kg_to_lightrag.py ~/Documents/MyVault-kg --json lightrag.json
+    python src/kg_to_lightrag.py ~/Documents/MyVault-kg --json lightrag.json
 
 LightRAG embeds the chunks, entities and relationships itself, so it needs an
 embedding model, and an LLM for answering queries later. --provider:
@@ -298,11 +298,11 @@ def _max_model_len(base_url: str, model: str, api_key: str | None) -> int | None
     return None
 
 
-def query_param(QueryParam, mode: str, context_len: int | None) -> Any:
+def query_param(QueryParam, mode: str, context_len: int | None, rerank: bool = False) -> Any:
     """LightRAG's query settings. Its default budget (30k tokens) assumes a large model:
     with a known context, entities, relations and passages are sized to fit it, with
-    room left for the answer. No reranker is set up, so reranking is off."""
-    kw: dict[str, Any] = {"mode": mode, "enable_rerank": False}
+    room left for the answer. Reranking only with a reranker (--rerank)."""
+    kw: dict[str, Any] = {"mode": mode, "enable_rerank": bool(rerank)}
     if context_len:
         total = max(2000, context_len - 2048)
         kw.update(max_total_tokens=total, max_entity_tokens=total // 5, max_relation_tokens=total * 3 // 10)
@@ -336,7 +336,39 @@ def _binding(module: str, package: str):
         sys.exit(f"LightRAG needs the '{package}' package for this provider:  pip install {package}\n({exc})")
 
 
-def make_vllm_rag(args, LightRAG, EmbeddingFunc) -> Any:
+RERANK_URL = "http://localhost:8002/v1"  # the optional reranker in the docker-compose files
+
+
+def make_rerank(args) -> dict:
+    """LightRAG arguments for a cross-encoder reranker (--rerank), or {} without one. It
+    reorders the passages LightRAG found by how well each answers the question, before
+    they fill the answer's context. Any server with a Jina/Cohere-style /rerank endpoint
+    works; vLLM serves one."""
+    args.rerank_on = False
+    if not (getattr(args, "rerank", False) or getattr(args, "rerank_url", None)):
+        return {}
+    url = (args.rerank_url or os.environ.get("VAULT2KG_RERANK_URL", RERANK_URL)).rstrip("/")
+    key = args.api_key or os.environ.get("VAULT2KG_API_KEY") or "not_needed"
+    model = args.rerank_model or next(iter(_served_models(url, key)), None)
+    if not model:
+        sys.exit(f"No reranker answers at {url}. Start the one in the compose file:\n"
+                 "  docker compose -f docker-compose.vllm-8gb.yml --profile rerank up -d\n"
+                 "or pass --rerank-url / --rerank-model.")
+    max_len = _max_model_len(url, model, key)
+    rerank = _binding("lightrag.rerank", "lightrag-hku")
+    # The question and a passage must fit the model together. LightRAG splits longer passages,
+    # counting with tiktoken (fewer tokens than most rerankers' tokenizers): keep 15% spare.
+    per_doc = max(64, int(max_len * 0.85) - 64) if max_len else 480
+    func = partial(rerank.cohere_rerank, model=model, base_url=f"{url}/rerank", api_key=key,
+                   enable_chunking=True, max_tokens_per_doc=per_doc,
+                   extra_body={"truncate_prompt_tokens": max_len} if max_len else None)
+    print(f"Reranker: {model} ({url}" + (f", {max_len} tokens" if max_len else "") + ")")
+    args.rerank_on = True
+    # Cross-encoders return raw scores, not 0-1 probabilities: reorder, never drop by score.
+    return {"rerank_model_func": func, "min_rerank_score": 0.0}
+
+
+def make_vllm_rag(args, LightRAG, EmbeddingFunc, extra_kw: dict | None = None) -> Any:
     binding = _binding("lightrag.llm.openai", "openai")
     openai_complete_if_cache, openai_embed = binding.openai_complete_if_cache, binding.openai_embed
     base = args.base_url or os.environ.get("VAULT2KG_BASE_URL", "http://localhost:8000/v1")
@@ -374,7 +406,7 @@ def make_vllm_rag(args, LightRAG, EmbeddingFunc) -> Any:
     return LightRAG(working_dir=args.working_dir, llm_model_func=llm_model_func, llm_model_name=chat,
                     embedding_func=_embedding_func(EmbeddingFunc, dim,
                                                    partial(embed_fn, model=emb, base_url=embed_base, api_key=key),
-                                                   emb, emb_tokens), **sizing)
+                                                   emb, emb_tokens), **sizing, **(extra_kw or {}))
 
 
 def make_rag(args) -> Any:
@@ -389,12 +421,13 @@ def make_rag(args) -> Any:
     if provider == "auto":
         url = args.base_url or os.environ.get("VAULT2KG_BASE_URL", "http://localhost:8000/v1")
         provider = "vllm" if _served_models(url, args.api_key) else "ollama"
+    rerank = make_rerank(args)
     if provider == "vllm":
-        return make_vllm_rag(args, LightRAG, EmbeddingFunc)
+        return make_vllm_rag(args, LightRAG, EmbeddingFunc, rerank)
     if provider == "openai":
         binding = _binding("lightrag.llm.openai", "openai")
         return LightRAG(working_dir=args.working_dir, llm_model_func=binding.gpt_4o_mini_complete,
-                        embedding_func=binding.openai_embed)
+                        embedding_func=binding.openai_embed, **rerank)
     binding = _binding("lightrag.llm.ollama", "ollama")
     ollama_embed, ollama_model_complete = binding.ollama_embed, binding.ollama_model_complete
     host = _ollama_host()
@@ -414,6 +447,7 @@ def make_rag(args) -> Any:
         llm_model_name=chat,
         llm_model_kwargs={"host": host, "options": {"num_ctx": 8192}},
         embedding_func=_embedding_func(EmbeddingFunc, dim, partial(embed_fn, embed_model=emb, host=host), emb),
+        **rerank,
     )
 
 
@@ -477,7 +511,8 @@ async def ask(question: str, args) -> str:
     from lightrag import QueryParam
     await rag.initialize_storages()
     try:
-        return await rag.aquery(question, param=query_param(QueryParam, args.mode, args.context_len))
+        return await rag.aquery(question, param=query_param(QueryParam, args.mode, args.context_len,
+                                                            getattr(args, "rerank_on", False)))
     finally:
         await rag.finalize_storages()
 
@@ -507,6 +542,11 @@ def main(argv: list[str] | None = None) -> int:
                    help="ask the LightRAG in --working-dir a question (instead of loading a graph)")
     p.add_argument("--mode", choices=["mix", "hybrid", "local", "global", "naive"], default="mix",
                    help="query mode for --query (default mix: graph and passage search together)")
+    p.add_argument("--rerank", action="store_true",
+                   help="for --query: reorder the passages found by how well they answer the question, with a "
+                        "cross-encoder (the vLLM reranker on :8002 in the compose files)")
+    p.add_argument("--rerank-url", help=f"server with a /rerank endpoint (default {RERANK_URL}); implies --rerank")
+    p.add_argument("--rerank-model", help="reranker model (default: read from the server)")
     p.add_argument("--working-dir", default="./rag_storage", help="LightRAG working directory (default ./rag_storage)")
     p.add_argument("--provider", choices=["auto", "vllm", "ollama", "openai"], default="auto")
     p.add_argument("--base-url", help="vLLM / OpenAI-compatible chat server (default http://localhost:8000/v1)")

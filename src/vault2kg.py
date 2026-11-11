@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """vault2kg - point it at an Obsidian vault, get a knowledge graph.
 
-    python vault2kg.py ~/Documents/MyVault
+    python src/vault2kg.py ~/Documents/MyVault
 
 Writes MyVault-kg/ next to the vault:
     graph.json   the knowledge graph: nodes, edges and text chunks (GRAPH_FORMAT.md)
@@ -2299,6 +2299,15 @@ def _q(path: Path) -> str:
     return f'"{s}"' if " " in s else s
 
 
+def _script(name: str) -> str:
+    """How to call a script next to this one from where you are: 'src/kg_view.py' from the repo root."""
+    path = Path(__file__).resolve().parent / name
+    try:
+        return _q(Path(os.path.relpath(path)))
+    except ValueError:  # another drive (Windows)
+        return _q(path)
+
+
 def default_out(vault: Path) -> Path:
     return vault.parent / f"{vault.name}-kg"
 
@@ -2307,7 +2316,7 @@ def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(
         prog="vault2kg",
         description="Point it at an Obsidian vault, get a knowledge graph (graph.json).",
-        epilog="Example:  python vault2kg.py ~/Documents/MyVault")
+        epilog="Example:  python src/vault2kg.py ~/Documents/MyVault")
     p.add_argument("vault", type=Path, help="path to the Obsidian vault")
     p.add_argument("-o", "--out", type=Path, help="output folder (default: <vault>-kg next to the vault)")
     p.add_argument("--no-llm", action="store_true", help="links, frontmatter and tags only (fast, free)")
@@ -2356,10 +2365,11 @@ def main(argv: list[str] | None = None) -> int:
                  id_keys=[k.strip() for k in a.id_keys.split(",") if k.strip()])
     VaultExtractor(cfg, client, llm_label=desc).run()
     log(f"\nKnowledge graph: {out / 'graph.json'}")
-    log("Next (optional):  python kg_view.py " + _q(out) + "        -> graph.html\n"
-        "                  python kg_to_neo4j.py " + _q(out) + "    -> Neo4j\n"
-        "                  python kg_to_lightrag.py " + _q(out) + " -> LightRAG\n"
-        "                  python kg_to_graphml.py " + _q(out) + "  -> Gephi / networkx")
+    steps = [("kg_view.py", "graph.html"), ("kg_to_neo4j.py", "Neo4j"), ("kg_to_lightrag.py", "LightRAG"),
+             ("kg_to_graphml.py", "Gephi / networkx")]
+    cmds = [f"python {_script(s)} {_q(out)}" for s, _ in steps]
+    width = max(map(len, cmds))
+    log("Next (optional):  " + "\n                  ".join(f"{c:<{width}} -> {d}" for c, (_, d) in zip(cmds, steps)))
     return 0
 
 

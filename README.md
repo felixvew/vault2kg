@@ -1,20 +1,20 @@
-# vault2kg <img src="logo.svg" alt="logo" height="75">
+# vault2kg <img src="assets/logo.svg" alt="logo" height="75">
 
 Point it at an Obsidian vault and get a knowledge graph, ready for Neo4j, LightRAG or a viewer in your browser.
 
 ```bash
 pip install pyyaml
-python vault2kg.py ~/Documents/MyVault
+python src/vault2kg.py ~/Documents/MyVault
 ```
 
 Your vault already holds most of a graph: `[[links]]` are edges, frontmatter is properties, tags are categories. vault2kg reads all of that without an LLM, and uses an LLM only for what's in the text of each note. The result is one file, `graph.json`, that the other scripts load into Neo4j or LightRAG.
 
-<p align="center"><img src="docs/viewer.png" width="520" alt="The graph viewer showing a vault of 88 notes as black nodes and the entities found in them as violet nodes, connected by links and extracted relationships"></p>
+<p align="center"><img src="assets/viewer.png" width="520" alt="The graph viewer showing a vault of 88 notes as black nodes and the entities found in them as violet nodes, connected by links and extracted relationships"></p>
 <p align="center"><sub>A real vault of 88 notes in <code>kg_view.py</code>, names hidden: notes in black, entities the LLM found in violet.</sub></p>
 
 ## From vault to answers: a worked example
 
-This repository includes `demo_vault/`: eight numbered notes from a fictional "Lab Methods Handbook", structured as the [vault guide](VAULT_GUIDE.md) recommends. That structure comes from a real vault we tested on. Each note has its number in the title and its facts in the frontmatter, repeats the facts that should become relationships as `**Label:** value` lines, and has free text under a heading and links to related notes:
+This repository includes `examples/demo_vault/`: eight numbered notes from a fictional "Lab Methods Handbook", structured as the [vault guide](guides/VAULT_GUIDE.md) recommends. That structure comes from a real vault we tested on. Each note has its number in the title and its facts in the frontmatter, repeats the facts that should become relationships as `**Label:** value` lines, and has free text under a heading and links to related notes:
 
 ```markdown
 ---
@@ -50,7 +50,7 @@ The output below comes from real runs on an 8 GB GPU (Qwen3-4B-AWQ and bge-base-
 ### 1. Build the graph
 
 ```bash
-python vault2kg.py demo_vault
+python src/vault2kg.py examples/demo_vault
 ```
 
 ```
@@ -71,14 +71,14 @@ What each part of the notes became:
 | `1.1.2` in the title | an alias, so "see 1.1.2" in any note resolves to it |
 | the source footer | hidden from the LLM as template text, kept in the note and its passages |
 
-To look at it: `python kg_view.py demo_vault-kg --open`.
+To look at it: `python src/kg_view.py examples/demo_vault-kg --open`.
 
 ### 2. Load it into LightRAG and ask
 
 ```bash
 pip install lightrag-hku openai
-python kg_to_lightrag.py demo_vault-kg --working-dir ./rag
-python kg_to_lightrag.py --working-dir ./rag --query "Which methods belong to the Imaging team, and what do they do?"
+python src/kg_to_lightrag.py examples/demo_vault-kg --working-dir ./rag
+python src/kg_to_lightrag.py --working-dir ./rag --query "Which methods belong to the Imaging team, and what do they do?"
 ```
 
 ```
@@ -96,7 +96,7 @@ All three Imaging methods are there. The 4B model also listed the shared calenda
 
 ### Your own vault
 
-Run vault2kg on it as it is: it handles links, frontmatter, template text and numbered titles on its own. The [vault guide](VAULT_GUIDE.md) shows what to change in your notes, or in the converter that writes them, to get a better graph.
+Run vault2kg on it as it is: it handles links, frontmatter, template text and numbered titles on its own. The [vault guide](guides/VAULT_GUIDE.md) shows what to change in your notes, or in the converter that writes them, to get a better graph.
 
 **Optional: the vault-prep skill.** [`skills/vault-prep`](skills/vault-prep/SKILL.md) is an agent skill that turns frontmatter values into links (`team: "[[Imaging]]"`), with your approval at every step and a backup first. That makes those relationships certain without an LLM, codes like `R2` included. The trade-off, measured on the demo vault: once a note's facts are all links, a 4B model mostly repeats those names and missed MediaPipe and ViTPose in the text. Use it with a strong model, or for facts you need complete. Copy the folder into `.claude/skills/` (Claude Code) or give it to any agent that reads `SKILL.md` files; without an agent, run its two scripts yourself.
 
@@ -104,14 +104,15 @@ Run vault2kg on it as it is: it handles links, frontmatter, template text and nu
 
 A demo this small can be answered by vector search alone. The difference shows on a real vault: 88 notes generated from an internal PDF that describes project ideas, with a numbered title, a service, a risk level and data sources per note. Same 8 GB setup, vault not prepared, no flags. LightRAG's `mix` mode uses the graph and the passages; `naive` uses the passages only.
 
-| Question | In the vault | `mix` | `naive` |
-|---|---|---|---|
-| Which projects belong to the workshop service? | 8 notes have that service | **all 8 found**, 3 wrong | 6 of 8 found, 4 wrong |
-| Which projects use the data warehouse, and for what? | 15 notes mention it | 9 of 15 found, 1 invented | 9 of 15 found, 1 wrong |
+| Question | In the vault | `naive` | `mix` | `mix --rerank` |
+|---|---|---|---|---|
+| Which projects belong to the workshop service? | 8 notes have that service | 6 of 8 found, 4 wrong | **all 8 found**, 3 wrong | **all 8 found**, 2 wrong |
+| Which projects use the data warehouse, and for what? | 15 notes mention it | 9 of 15 found, 1 wrong | 9 of 15 found, 1 invented | **10 of 15 found, none wrong** |
 
-- **The service question** is where the graph helps. The LLM linked 82 of the 88 notes to their service, and the service is in each note's description, so `mix` reached all 8. Vector search found 6 and added 4 that only sounded similar. The `**Service:**` line in every note is what made those links; the [vault guide](VAULT_GUIDE.md) explains why.
+- **The service question** is where the graph helps. The LLM linked 82 of the 88 notes to their service, and the service is in each note's description, so `mix` reached all 8. Vector search found 6 and added 4 that only sounded similar. The `**Service:**` line in every note is what made those links; the [vault guide](guides/VAULT_GUIDE.md) explains why.
 - **The data-warehouse question** is a tie, but the two modes found different notes: 12 of 15 between them. The limit was the model's 8,192-token context. LightRAG found 66 entities and 79 relationships, and only 17 and 34 of them fit into the answer's context.
 - **Wrong and invented entries** come from the 4B model writing the answer.
+- **The optional reranker** ([below](#reranking-optional)) helped on both: it chose better passages for the small context, and the answers named fewer wrong projects. One run per question, so read it as a direction, not a benchmark.
 
 For complete lists ("every project with risk R3"), use Neo4j: it filters exactly, where LightRAG ranks.
 
@@ -129,19 +130,19 @@ Everything above runs on a 4B model on an 8 GB laptop GPU, so you can try it any
 
 The result goes into a folder next to the vault, `MyVault-kg/`:
 
-- **`graph.json`**: the knowledge graph (nodes, edges, text chunks). The format is in [GRAPH_FORMAT.md](GRAPH_FORMAT.md).
+- **`graph.json`**: the knowledge graph (nodes, edges, text chunks). The format is in [GRAPH_FORMAT.md](guides/GRAPH_FORMAT.md).
 - **`notes/`**: one JSON per note, listing what was found in that note.
 
 That's all the main script does. Everything else is a separate, optional script, and each one declares its own dependency:
 
 | Script | Does | Needs |
 |---|---|---|
-| [`VAULT_GUIDE.md`](VAULT_GUIDE.md) | How to structure notes, or a converter's output, for a good graph | — |
+| [`VAULT_GUIDE.md`](guides/VAULT_GUIDE.md) | How to structure notes, or a converter's output, for a good graph | — |
 | `skills/vault-prep` | Optional agent skill: turns frontmatter values into links before vault2kg runs | an agent, or run its scripts yourself (PyYAML) |
-| `kg_view.py MyVault-kg` | Writes `graph.html`, an interactive graph you open in a browser | nothing |
+| `src/kg_view.py MyVault-kg` | Writes `graph.html`, an interactive graph you open in a browser | nothing |
 | `kg_to_neo4j.py MyVault-kg --password … [--embed]` | Loads the graph into Neo4j, or writes a Cypher file with `--cypher FILE`. `--embed` adds passage vectors and a vector index | `pip install neo4j` (not needed with `--cypher`); `--embed` needs an embedding server |
-| `kg_to_lightrag.py MyVault-kg --working-dir ./rag` | Loads the graph into LightRAG, or writes its JSON with `--json FILE`; `--query` asks it a question | `pip install lightrag-hku openai` (not needed with `--json`) |
-| `kg_to_graphml.py MyVault-kg` | Writes `graph.graphml` for Gephi, yEd or networkx | nothing |
+| `src/kg_to_lightrag.py MyVault-kg --working-dir ./rag` | Loads the graph into LightRAG, or writes its JSON with `--json FILE`; `--query` asks it a question, `--rerank` adds a reranker | `pip install lightrag-hku openai` (not needed with `--json`) |
+| `src/kg_to_graphml.py MyVault-kg` | Writes `graph.graphml` for Gephi, yEd or networkx | nothing |
 
 ## How it works
 
@@ -150,12 +151,12 @@ That's all the main script does. Everything else is a separate, optional script,
 3. **Chunking, at two levels.**
    - **Sections** (heading-based, up to about 2,500 characters) are what the LLM reads. Bigger chunks give it context and mean fewer calls.
    - **Passages** (up to 384 tokens, never spanning two headings) are what you embed for vector search. Each gets a `Title > Heading` header and a link to its parent section.
-   - **Nothing is lost:** the sections hold every character of the note's body, and the passages every character of their section. Text is cut at line breaks, sentence ends or spaces, never inside a word (unless one word alone is longer than the limit). Each run checks this and warns if it ever fails ([GRAPH_FORMAT.md](GRAPH_FORMAT.md#passages)).
+   - **Nothing is lost:** the sections hold every character of the note's body, and the passages every character of their section. Text is cut at line breaks, sentence ends or spaces, never inside a word (unless one word alone is longer than the limit). Each run checks this and warns if it ever fails ([GRAPH_FORMAT.md](guides/GRAPH_FORMAT.md#passages)).
 4. **LLM extraction** (optional). Each chunk goes to the model with context from the whole note: title, properties, opening lines, and every note it links to. The model returns entities and relationships as JSON. Template text is left out of what the model reads (see [Templates and numbered notes](#templates-and-numbered-notes)); the notes and the graph keep all of it.
 5. **Per note,** short forms are folded into full names ("Tom" → "Tom Becker") when exactly one candidate fits.
 6. **Across the vault,** duplicates are merged in this order: name (`Pose-Estimation` = `pose estimation`), then alias, then embedding similarity (with an embedding model), then a yes/no question to the LLM for close calls. Two notes never merge.
 
-GRAPH_FORMAT.md explains how notes with several chunks are handled.
+[GRAPH_FORMAT.md](guides/GRAPH_FORMAT.md) explains how notes with several chunks are handled.
 
 ## LLM
 
@@ -171,10 +172,10 @@ The model names are read from the server, so there's nothing to configure.
 
 ```bash
 docker compose -f docker-compose.vllm.yml up -d     # chat on :8000, embeddings on :8001
-python vault2kg.py ~/Documents/MyVault
+python src/vault2kg.py ~/Documents/MyVault
 ```
 
-`docker-compose.vllm.yml` runs Qwen2.5-7B-Instruct for extraction and bge-m3 for embeddings on one 24 GB NVIDIA GPU. `docker-compose.vllm-8gb.yml` fits an 8 GB GPU with Qwen3-4B-AWQ and the English-only bge-base-en-v1.5. vLLM serves one model per container, which is why there are two. What changes with vLLM:
+`docker-compose.vllm.yml` runs Qwen2.5-7B-Instruct for extraction and bge-m3 for embeddings on one 24 GB NVIDIA GPU. `docker-compose.vllm-8gb.yml` fits an 8 GB GPU with Qwen3-4B-AWQ and the English-only bge-base-en-v1.5. vLLM serves one model per container, which is why there are two, plus an optional third for [reranking](#reranking-optional). What changes with vLLM:
 - **Parallel requests:** 16 by default instead of 4, because vLLM batches them. Change with `--workers`.
 - **Structured outputs:** vLLM constrains the model to the JSON schema.
 - **Qwen3:** its thinking mode is switched off for extraction.
@@ -182,7 +183,7 @@ python vault2kg.py ~/Documents/MyVault
 Your containers on other ports or another machine:
 
 ```bash
-python vault2kg.py ~/Vault --base-url http://gpu-box:8000/v1 --embed-base-url http://gpu-box:8001/v1
+python src/vault2kg.py ~/Vault --base-url http://gpu-box:8000/v1 --embed-base-url http://gpu-box:8001/v1
 # vLLM started with --api-key:  add --api-key <key>
 ```
 
@@ -192,14 +193,14 @@ If vault2kg itself runs in a container, `localhost` is that container. Use the s
 
 ```bash
 ollama pull qwen2.5:7b && ollama pull nomic-embed-text      # local setup without Docker
-python vault2kg.py ~/Vault --model qwen2.5:14b              # a specific model
-python vault2kg.py ~/Vault --no-llm                         # structure only
-python vault2kg.py ~/Vault --max-output-tokens 2048         # cap each answer (default: no cap)
+python src/vault2kg.py ~/Vault --model qwen2.5:14b              # a specific model
+python src/vault2kg.py ~/Vault --no-llm                         # structure only
+python src/vault2kg.py ~/Vault --max-output-tokens 2048         # cap each answer (default: no cap)
 ```
 
 **Small models and `--max-output-tokens`:** a small model sometimes never finishes its answer and runs until the context is full; that section then fails. With a cap, such an answer is cut off and retried instead. A normal answer for one section is well under 2,000 tokens. Leave it off for capable models.
 
-Re-runs are cheap. Results are cached per chunk, so only edited sections go back to the LLM, and editing frontmatter or tags costs nothing. The defaults (entity types, chunk sizes, merge thresholds, vLLM ports) are in the settings block at the top of `vault2kg.py`.
+Re-runs are cheap. Results are cached per chunk, so only edited sections go back to the LLM, and editing frontmatter or tags costs nothing. The defaults (entity types, chunk sizes, merge thresholds, vLLM ports) are in the settings block at the top of `src/vault2kg.py`.
 
 ### Templates and numbered notes
 
@@ -213,7 +214,7 @@ The thresholds (`TEMPLATE_SHARE`, `CONSTANT_SHARE`, `AUTO_MIN_NOTES`) are in the
 **Manual overrides**, for what the automatic rules don't catch:
 
 ```bash
-python vault2kg.py ~/Vault --hide-keys "classification,risk" --id-keys item_id
+python src/vault2kg.py ~/Vault --hide-keys "classification,risk" --id-keys item_id
 ```
 
 - **`--hide-keys`:** the LLM never sees these properties. Globs are allowed. Body lines that restate them (`**Risk:** R3`, `risk:: R3`) are hidden too. They stay properties of the note node, so you can still filter on them in Neo4j.
@@ -226,9 +227,9 @@ To make them permanent, set `LLM_HIDDEN_KEYS` and `ID_KEYS` in the settings bloc
 For vector search, embed `passages[].embed_text` and return the parent section (`passages[].chunk`) to the LLM. This is small-to-big retrieval: precise matching on short text, full context in the answer. The note-level context the LLM gets during extraction never goes into the passages.
 
 ```bash
-python vault2kg.py ~/Vault --passage-tokens 256          # smaller passages
+python src/vault2kg.py ~/Vault --passage-tokens 256          # smaller passages
 pip install docling
-python vault2kg.py ~/Vault --docling --docling-tokenizer BAAI/bge-m3   # Docling's HybridChunker
+python src/vault2kg.py ~/Vault --docling --docling-tokenizer BAAI/bge-m3   # Docling's HybridChunker
 ```
 
 With `--docling`, each section is cut by Docling's HybridChunker, using your embedding model's tokenizer. The Obsidian-specific parts (frontmatter, wikilinks, tags) are still handled by vault2kg itself. Docling is only imported when you pass the flag.
@@ -237,7 +238,7 @@ With `--docling`, each section is cut by Docling's HybridChunker, using your emb
 
 ```bash
 pip install neo4j
-python kg_to_neo4j.py ~/Documents/MyVault-kg --password secret     # or NEO4J_URI / NEO4J_PASSWORD
+python src/kg_to_neo4j.py ~/Documents/MyVault-kg --password secret     # or NEO4J_URI / NEO4J_PASSWORD
 ```
 
 - **Labels:** every node is `:VaultNode`, plus its kind (`:Note`, `:Entity`, `:Tag`, `:File`) and its type (`:Person`, `:Project`…).
@@ -247,7 +248,7 @@ python kg_to_neo4j.py ~/Documents/MyVault-kg --password secret     # or NEO4J_UR
 ### Vector search in Neo4j (`--embed`)
 
 ```bash
-python kg_to_neo4j.py ~/Documents/MyVault-kg --password secret --embed
+python src/kg_to_neo4j.py ~/Documents/MyVault-kg --password secret --embed
 ```
 
 `--embed` embeds each passage's `embed_text` and stores the vector in `Passage.embedding`, plus the model name in `Passage.embedding_model`. It also creates the cosine vector index `passage_embedding`.
@@ -269,8 +270,8 @@ RETURN n.name AS note, p.text AS passage, c.text AS section, collect(e.name) AS 
 
 ```bash
 pip install lightrag-hku openai          # with Ollama: lightrag-hku ollama
-python kg_to_lightrag.py ~/Documents/MyVault-kg --working-dir ./rag
-python kg_to_lightrag.py --working-dir ./rag --query "Which tools does Anna use?"
+python src/kg_to_lightrag.py ~/Documents/MyVault-kg --working-dir ./rag
+python src/kg_to_lightrag.py --working-dir ./rag --query "Which tools does Anna use?"
 ```
 
 LightRAG needs its own embedding model and LLM. By default it uses the vLLM containers if they're running (chat on :8000, embeddings on :8001), otherwise Ollama; the models are read from the servers and the embedding size is detected. You can also choose explicitly: `--provider vllm --base-url … --embed-base-url …`, `--provider ollama` or `--provider openai`. LightRAG talks to vLLM and OpenAI through the `openai` package and to Ollama through `ollama`; `lightrag-hku` doesn't install either.
@@ -278,6 +279,19 @@ LightRAG needs its own embedding model and LLM. By default it uses the vLLM cont
 **Sized to your models.** vLLM reports each model's context length, and the script fits LightRAG to it: embedding inputs are cut to the embedder's limit, and LightRAG's summaries and query context (30,000 tokens by default) are sized to fit the chat model. On the 8 GB setup that is a 6,144-token query context for Qwen3-4B's 8,192, with 512-token embeddings. Qwen3's thinking mode is switched off, as in `vault2kg.py`.
 
 **Asking.** `--query` uses the same models the graph was loaded with. `--mode` picks LightRAG's query mode: `mix` (default: graph and passage search together), `local` (entities and their passages), `global` (relationships), `hybrid` (both) or `naive` (passages only).
+
+### Reranking (optional)
+
+LightRAG finds more passages than fit into the answer's context: 50 to 70 per question on the real vault, of which 10 to 15 fit in with the 8 GB setup. A reranker reads the question together with each passage and puts the ones that actually answer it first. Vector similarity only compares them separately. That matters most when the context is small.
+
+```bash
+docker compose -f docker-compose.vllm-8gb.yml --profile rerank up -d --wait   # a reranker on :8002
+python src/kg_to_lightrag.py --working-dir ./rag --query "Which projects use the data warehouse?" --rerank
+```
+
+- **Which reranker:** the compose files start one only with `--profile rerank`. The 8 GB file uses `cross-encoder/ms-marco-MiniLM-L-6-v2` (English, 22M parameters, about 0.35 GB of GPU memory); the 24 GB file uses the multilingual `BAAI/bge-reranker-v2-m3`, untested. Any server with a Jina/Cohere-style `/rerank` endpoint works: `--rerank-url … --rerank-model …`.
+- **Fitted like the other models:** the script reads the reranker's context (512 tokens) from vLLM and lets LightRAG split longer passages to fit next to the question.
+- **It reorders, it never drops:** cross-encoders return raw scores, not probabilities, so LightRAG's minimum score is set to 0.
 
 LightRAG's chunks are the passages.
 

@@ -9,8 +9,8 @@ import pytest
 
 import vault2kg as v
 
-HERE = Path(__file__).parent
-SKILL = HERE / "skills" / "vault-prep"
+ROOT = Path(__file__).resolve().parent.parent
+SKILL = ROOT / "skills" / "vault-prep"
 
 
 def _load(name):
@@ -26,7 +26,7 @@ profile_vault, apply_plan = _load("profile_vault"), _load("apply_plan")
 @pytest.fixture()
 def demo(tmp_path):
     dst = tmp_path / "demo"
-    shutil.copytree(HERE / "demo_vault", dst)
+    shutil.copytree(ROOT / "examples" / "demo_vault", dst)
     return dst
 
 

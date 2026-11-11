@@ -2,15 +2,20 @@
 # vLLM serves one model per container, so they get two ports:
 #   chat        http://localhost:8000/v1   (entity extraction, duplicate checks)
 #   embeddings  http://localhost:8001/v1   (merging duplicates; LightRAG)
-# vault2kg.py and kg_to_lightrag.py find both automatically.
+#   reranker    http://localhost:8002/v1   (optional: kg_to_lightrag.py --rerank)
+# vault2kg.py and kg_to_lightrag.py find them automatically.
 #
 #   docker compose -f docker-compose.vllm.yml up -d
-#   python vault2kg.py ~/Documents/MyVault
+#   docker compose -f docker-compose.vllm.yml --profile rerank up -d    # with the reranker
+#   python src/vault2kg.py ~/Documents/MyVault
 #
-# Needs an NVIDIA GPU with the NVIDIA Container Toolkit. Both containers share
+# Needs an NVIDIA GPU with the NVIDIA Container Toolkit. The containers share
 # the GPU: together their --gpu-memory-utilization must stay below 1.0.
 # A 24 GB card fits the defaults; on 16 GB use Qwen/Qwen2.5-7B-Instruct-AWQ.
 # Gated models need HF_TOKEN in your environment.
+# The reranker here (bge-reranker-v2-m3, multilingual like bge-m3) is untested on 24 GB;
+# docker-compose.vllm-8gb.yml runs a smaller English one that was tested.
+name: vault2kg
 services:
   vllm-chat:
     image: vllm/vllm-openai:latest
@@ -42,6 +47,26 @@ services:
       - --runner=pooling            # vLLM before 0.10: replace with --task=embed
       - --max-model-len=8192
       - --gpu-memory-utilization=0.20
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: all, capabilities: [gpu]}]
+
+  vllm-rerank:                      # optional: starts only with --profile rerank
+    profiles: ["rerank"]
+    image: vllm/vllm-openai:latest
+    ports: ["8002:8000"]
+    ipc: host
+    volumes:
+      - ~/.cache/huggingface:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    command:
+      - --model=BAAI/bge-reranker-v2-m3
+      - --runner=pooling
+      - --max-model-len=8192
+      - --gpu-memory-utilization=0.07
+    depends_on: [vllm-chat, vllm-embed]
     deploy:
       resources:
         reservations:

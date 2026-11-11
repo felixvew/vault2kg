@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """kg_to_graphml - export graph.json as GraphML (Gephi, yEd, Cytoscape, networkx).
 
-    python kg_to_graphml.py ~/Documents/MyVault-kg     # writes MyVault-kg/graph.graphml
+    python src/kg_to_graphml.py ~/Documents/MyVault-kg     # writes MyVault-kg/graph.graphml
 
 No dependencies.
 """

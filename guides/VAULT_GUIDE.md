@@ -1,6 +1,6 @@
 # Vault guide: notes that make a good graph
 
-vault2kg works with any vault. This guide is for when you write notes, or generate them from a PDF, a CMS or a database export, and want the best graph out of them. It follows the structure of a real vault we tested on: 88 notes generated from a PDF that describes project ideas. That vault gave good results without any preparation, and [`demo_vault/`](demo_vault) is built the same way.
+vault2kg works with any vault. This guide is for when you write notes, or generate them from a PDF, a CMS or a database export, and want the best graph out of them. It follows the structure of a real vault we tested on: 88 notes generated from a PDF that describes project ideas. That vault gave good results without any preparation, and [`examples/demo_vault/`](../examples/demo_vault) is built the same way.
 
 ## The note
 
@@ -83,4 +83,4 @@ If your notes come out of a script (from a PDF, a CMS, a ticket system), have it
 
 `team: "[[Imaging]]"` makes a relationship certain: a `TEAM` edge for every note, built without an LLM, also for codes like `R3`. Obsidian shows these links too. The trade-off, measured on the demo vault: when a note's facts are all links, a small model (4B) mostly repeats those names and misses new ones in the text. MediaPipe and ViTPose were missed that way. A strong model handles it better.
 
-So the structure above is the default, and links in frontmatter are an option for strong models or facts you need complete. For an existing vault, the [vault-prep skill](skills/vault-prep/SKILL.md) can do that rewrite, with your approval.
+So the structure above is the default, and links in frontmatter are an option for strong models or facts you need complete. For an existing vault, the [vault-prep skill](../skills/vault-prep/SKILL.md) can do that rewrite, with your approval.

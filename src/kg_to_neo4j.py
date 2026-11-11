@@ -2,13 +2,13 @@
 """kg_to_neo4j - load graph.json into Neo4j.
 
     pip install neo4j
-    python kg_to_neo4j.py ~/Documents/MyVault-kg --password secret
+    python src/kg_to_neo4j.py ~/Documents/MyVault-kg --password secret
 
     # also embed the passages and create a vector index (ready for vector search):
-    python kg_to_neo4j.py ~/Documents/MyVault-kg --password secret --embed
+    python src/kg_to_neo4j.py ~/Documents/MyVault-kg --password secret --embed
 
     # or write a Cypher file instead (no driver needed), run it with cypher-shell:
-    python kg_to_neo4j.py ~/Documents/MyVault-kg --cypher neo4j.cypher
+    python src/kg_to_neo4j.py ~/Documents/MyVault-kg --cypher neo4j.cypher
 
 Connection: --uri / --user / --password / --database, or the environment
 variables NEO4J_URI, NEO4J_USERNAME, NEO4J_PASSWORD, NEO4J_DATABASE.

@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """kg_view - turn graph.json into an interactive page (graph.html).
 
-    python kg_view.py ~/Documents/MyVault-kg            # writes MyVault-kg/graph.html
-    python kg_view.py ~/Documents/MyVault-kg --open     # and opens it
+    python src/kg_view.py ~/Documents/MyVault-kg            # writes MyVault-kg/graph.html
+    python src/kg_view.py ~/Documents/MyVault-kg --open     # and opens it
 
 One self-contained HTML file that works offline: search, filter by kind,
 click a node for its connections, open notes in Obsidian. Uses its built-in

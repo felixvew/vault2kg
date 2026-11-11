@@ -8,7 +8,7 @@ import pytest
 
 import vault2kg as v
 
-SAMPLE = Path(__file__).parent / "sample_vault"
+SAMPLE = Path(__file__).resolve().parent.parent / "examples" / "sample_vault"
 
 
 class FakeClient:

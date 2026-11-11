@@ -5,7 +5,7 @@ description: Optional preparation of an Obsidian vault for vault2kg. Rewrites it
 
 # Vault prep for vault2kg (optional)
 
-**Start with the vault guide** (`VAULT_GUIDE.md` in the vault2kg repository). For most vaults the better fix is in the notes: a `**Label:** value` line in the text for each fact that should become a relationship. That's how a real 88-note vault got its services linked in 82 of 88 notes, with no rewrite. If the notes come from a converter, change the converter, not the vault.
+**Start with the vault guide** (`guides/VAULT_GUIDE.md` in the vault2kg repository). For most vaults the better fix is in the notes: a `**Label:** value` line in the text for each fact that should become a relationship. That's how a real 88-note vault got its services linked in 82 of 88 notes, with no rewrite. If the notes come from a converter, change the converter, not the vault.
 
 This skill is the other way. vault2kg turns a property into a relationship only when its value is a link (`team: "[[Imaging]]"` becomes a `TEAM` edge for every note that has it). This skill rewrites the frontmatter so chosen facts are links: certain, without an LLM, codes like `R3` included. The vault stays a normal Obsidian vault, and the links also appear in Obsidian's graph view and backlinks.
 
@@ -44,7 +44,7 @@ This skill is the other way. vault2kg turns a property into a relationship only 
 
 5. **Write**, after a clear yes. In a git repository with nothing uncommitted: `--write`. Otherwise: `--write --backup <new folder>`.
 
-6. **Check.** Run apply_plan again: it should report 0 notes to change. Then build the graph (`python vault2kg.py <vault>`, or `--no-llm` for a quick structural check) and confirm the new edges exist for every note that has the property. With an LLM, also compare the entities from the note text with a run on the backup: if names from the text went missing, the model is too small for the rewritten vault (see the trade-off above).
+6. **Check.** Run apply_plan again: it should report 0 notes to change. Then build the graph (`python src/vault2kg.py <vault>`, or `--no-llm` for a quick structural check) and confirm the new edges exist for every note that has the property. With an LLM, also compare the entities from the note text with a run on the backup: if names from the text went missing, the model is too small for the rewritten vault (see the trade-off above).
 
 7. **Report** what changed, where the backup is, and how to undo it: `git checkout -- .` in git, or copy the backup back.
 

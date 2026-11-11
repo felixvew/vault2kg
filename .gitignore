@@ -1,22 +1,19 @@
 # Only the project goes into the repository. Everything else in this folder (your own
 # vaults, their graphs, LightRAG stores, the Python environment) stays out, including
-# anything you add later. To publish a new top-level file, add a "!/name" line here.
+# anything you add later. To publish a new top-level file or folder, add a "!/name" line here.
 /*
 !/.gitignore
 !/README.md
-!/GRAPH_FORMAT.md
-!/VAULT_GUIDE.md
 !/LICENSE
-!/logo.svg
-!/docs/
-!/*.py
 !/docker-compose*.yml
-!/demo_vault/
-!/sample_vault/
-!/example_output/
+!/src/
+!/tests/
+!/guides/
+!/assets/
+!/examples/
 !/skills/
 
-# A private house style for the viewer (kg_view.py uses its built-in style without it)
+# A private house style for the viewer (src/kg_view.py uses its built-in style without it)
 proto-ui.css
 
 # Generated anywhere: graphs next to a vault, caches, LightRAG stores

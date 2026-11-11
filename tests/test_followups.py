@@ -404,7 +404,7 @@ def _fake_lightrag(monkeypatch, embedding_sig="new"):
         return "ok"
 
     names = ["lightrag", "lightrag.utils", "lightrag.constants", "lightrag.llm", "lightrag.llm.ollama",
-             "lightrag.llm.openai"]
+             "lightrag.llm.openai", "lightrag.rerank"]
     mods = {n: types.ModuleType(n) for n in names}
     mods["lightrag"].LightRAG = FakeRAG
     mods["lightrag"].QueryParam = lambda **kw: kw
@@ -417,6 +417,11 @@ def _fake_lightrag(monkeypatch, embedding_sig="new"):
     mods["lightrag.llm.ollama"].ollama_embed = lambda texts, embed_model, host: None
     mods["lightrag.llm.openai"].openai_complete_if_cache = complete
     mods["lightrag.llm.openai"].openai_embed = lambda texts, model, base_url, api_key: None
+
+    async def cohere_rerank(query, documents, top_n=None, api_key=None, model=None, base_url=None,
+                            extra_body=None, enable_chunking=False, max_tokens_per_doc=4096):
+        return [{"index": i, "relevance_score": -i} for i in range(len(documents))]
+    mods["lightrag.rerank"].cohere_rerank = cohere_rerank
     for k, m in mods.items():
         monkeypatch.setitem(sys.modules, k, m)
     return got
@@ -435,9 +440,12 @@ def test_lightrag_insert_with_ollama(kg, monkeypatch, tmp_path):
     assert wd.is_dir()
 
 
-def _small_vllm(monkeypatch):
-    """vLLM as in docker-compose.vllm-8gb.yml: an 8k chat model and a 512-token embedder."""
+def _small_vllm(monkeypatch, rerank=False):
+    """vLLM as in docker-compose.vllm-8gb.yml: an 8k chat model, a 512-token embedder and,
+    with its rerank profile, a 512-token reranker."""
     served = {"http://localhost:8000/v1": ("Qwen/Qwen3-4B-AWQ", 8192), "http://localhost:8001/v1": ("BAAI/bge-base-en-v1.5", 512)}
+    if rerank:
+        served["http://localhost:8002/v1"] = ("cross-encoder/ms-marco-MiniLM-L-6-v2", 512)
     monkeypatch.setattr(kg_to_lightrag, "_served_models", lambda url, key: [served[url][0]] if url in served else [])
     monkeypatch.setattr(kg_to_lightrag, "_max_model_len", lambda url, model, key: served[url][1])
     monkeypatch.setattr(kg_to_lightrag, "_embedding_dim", lambda url, model, key: 768)
@@ -463,6 +471,28 @@ def test_lightrag_query(monkeypatch, tmp_path, capsys):
     assert "the answer" in capsys.readouterr().out and got["finalized"]
     with pytest.raises(SystemExit):                                      # neither a graph nor a question
         kg_to_lightrag.main(["--working-dir", str(tmp_path / "rag")])
+    assert "rerank_model_func" not in got["init"]                        # no reranker unless asked for
+
+
+def test_lightrag_query_with_reranker(monkeypatch, tmp_path, capsys):
+    got = _fake_lightrag(monkeypatch)
+    _small_vllm(monkeypatch, rerank=True)
+    assert kg_to_lightrag.main(["--working-dir", str(tmp_path / "rag"), "--query", "Why?", "--rerank"]) == 0
+    assert got["query"][1]["enable_rerank"] is True
+    func = got["init"]["rerank_model_func"]
+    assert func.keywords["model"] == "cross-encoder/ms-marco-MiniLM-L-6-v2"
+    assert func.keywords["base_url"] == "http://localhost:8002/v1/rerank"
+    assert func.keywords["enable_chunking"] and func.keywords["max_tokens_per_doc"] == 371   # 512: question + passage
+    assert func.keywords["extra_body"] == {"truncate_prompt_tokens": 512}
+    assert got["init"]["min_rerank_score"] == 0.0                         # raw scores: reorder, never drop
+    assert "Reranker: cross-encoder/ms-marco-MiniLM-L-6-v2" in capsys.readouterr().out
+
+
+def test_lightrag_rerank_without_reranker_explains(monkeypatch, tmp_path):
+    _fake_lightrag(monkeypatch)
+    _small_vllm(monkeypatch)                                              # nothing on :8002
+    with pytest.raises(SystemExit, match="--profile rerank"):
+        kg_to_lightrag.main(["--working-dir", str(tmp_path / "rag"), "--query", "Why?", "--rerank"])
 
 
 def test_lightrag_vllm_provider(kg, monkeypatch, tmp_path):

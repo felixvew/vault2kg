@@ -2,18 +2,22 @@
 # Same layout as docker-compose.vllm.yml, so vault2kg.py / kg_to_*.py find it automatically:
 #   chat        http://localhost:8000/v1   Qwen/Qwen3-4B-AWQ      (entity extraction, duplicate checks)
 #   embeddings  http://localhost:8001/v1   BAAI/bge-base-en-v1.5  (merging duplicates; Neo4j/LightRAG)
+#   reranker    http://localhost:8002/v1   ms-marco-MiniLM-L-6-v2 (optional, kg_to_lightrag.py --rerank)
 #
 #   docker compose -f docker-compose.vllm-8gb.yml up -d --wait
-#   python vault2kg.py ~/Documents/MyVault
+#   docker compose -f docker-compose.vllm-8gb.yml --profile rerank up -d --wait   # with the reranker
+#   python src/vault2kg.py ~/Documents/MyVault
 #
 # Needs Docker Desktop (WSL2 backend) and an NVIDIA driver; no extra toolkit on Windows.
-# VRAM budget on 8 GB: Windows desktop ~0.8 GB + embed 0.12 (~1 GB) + chat 0.65 (~5.2 GB).
+# VRAM budget on 8 GB: Windows desktop ~0.8 GB + embed 0.12 (~1 GB) + chat 0.65 (~5.2 GB),
+# + reranker 0.08 (~0.65 GB) when it runs.
 # vLLM refuses to start if the requested share is not free, so close GPU-heavy apps first.
 # The embedder starts first; the chat model waits until it is healthy (parallel startup
 # would make vLLM misjudge free memory). The first start downloads ~3 GB of weights.
 #
 # Both models are ungated and Apache-2.0/MIT licensed; HF_TOKEN is optional (faster downloads).
 # If the chat container fails with "not enough KV cache", lower --max-model-len to 6144.
+name: vault2kg
 services:
   vllm-embed:
     image: vllm/vllm-openai:latest
@@ -61,6 +65,34 @@ services:
       timeout: 5s
       retries: 30
       start_period: 20m
+    deploy:
+      resources:
+        reservations:
+          devices: [{driver: nvidia, count: all, capabilities: [gpu]}]
+
+  vllm-rerank:                          # optional: starts only with --profile rerank
+    profiles: ["rerank"]
+    image: vllm/vllm-openai:latest
+    ports: ["8002:8000"]
+    ipc: host
+    volumes:
+      - hf-cache:/root/.cache/huggingface
+    environment:
+      - HF_TOKEN=${HF_TOKEN:-}
+    command:
+      - --model=cross-encoder/ms-marco-MiniLM-L-6-v2   # English, 22M parameters, 512-token pairs
+      - --runner=pooling
+      - --max-model-len=512
+      - --gpu-memory-utilization=0.08
+    depends_on:
+      vllm-chat:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python3", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health', timeout=4)"]
+      interval: 10s
+      timeout: 5s
+      retries: 30
+      start_period: 10m
     deploy:
       resources:
         reservations:
