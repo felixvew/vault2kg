@@ -1,4 +1,4 @@
-# vault2kg <img src="logo.svg" alt="logo" width="35" height="35"> 
+# vault2kg <img src="logo.svg" alt="logo" height="32">
 
 Point it at an Obsidian vault and get a knowledge graph, ready for Neo4j, LightRAG or a viewer in your browser.
 
@@ -8,6 +8,9 @@ python vault2kg.py ~/Documents/MyVault
 ```
 
 Your vault already holds most of a graph: `[[links]]` are edges, frontmatter is properties, tags are categories. vault2kg reads all of that without an LLM, and uses an LLM only for what's in the text of each note. The result is one file, `graph.json`, that the other scripts load into Neo4j or LightRAG.
+
+<p align="center"><img src="docs/viewer.png" width="520" alt="The graph viewer showing a vault of 88 notes as black nodes and the entities found in them as violet nodes, connected by links and extracted relationships"></p>
+<p align="center"><sub>A real vault of 88 notes in <code>kg_view.py</code>, names hidden: notes in black, entities the LLM found in violet.</sub></p>
 
 ## From vault to answers: a worked example
 
