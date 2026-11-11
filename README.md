@@ -9,8 +9,14 @@ python src/vault2kg.py ~/Documents/MyVault
 
 Your vault already holds most of a graph: `[[links]]` are edges, frontmatter is properties, tags are categories. vault2kg reads all of that without an LLM, and uses an LLM only for what's in the text of each note. The result is one file, `graph.json`, that the other scripts load into Neo4j or LightRAG.
 
-<p align="center"><img src="assets/viewer.png" width="520" alt="The graph viewer showing a vault of 88 notes as black nodes and the entities found in them as violet nodes, connected by links and extracted relationships"></p>
-<p align="center"><sub>A real vault of 88 notes in <code>kg_view.py</code>, names hidden: notes in black, entities the LLM found in violet.</sub></p>
+<table>
+<tr>
+<td align="center" width="33%"><img src="assets/viewer-1-links.png" alt="Step 1: only the notes, as black nodes, connected by their links"><br><sub><b>1. From the vault, no LLM</b><br>notes and their links</sub></td>
+<td align="center" width="33%"><img src="assets/viewer-2-entities.png" alt="Step 2: the same notes plus violet entity nodes the LLM found in the text, not yet connected"><br><sub><b>2. Entities in the text</b><br>found by the LLM, shown unconnected</sub></td>
+<td align="center" width="33%"><img src="assets/viewer-3-full.png" alt="Step 3: notes and entities densely connected by the relationships the LLM extracted"><br><sub><b>3. The full graph</b><br>with the LLM's relationships</sub></td>
+</tr>
+</table>
+<p align="center"><sub>A real vault of 88 notes in <code>src/kg_view.py</code>, names hidden: notes in black, entities in violet. Steps 1 and 2 are the same graph with the viewer's "Entities" and "Extracted by LLM" switches turned off. Entities and their relationships come from the same LLM step; step 2 only separates them to show what was found.</sub></p>
 
 ## From vault to answers: a worked example
 
