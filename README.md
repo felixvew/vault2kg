@@ -1,4 +1,4 @@
-# vault2kg <img src="logo.svg" alt="logo" width="35" height="35"> 
+# vault2kg <img src="logo.svg" alt="logo" width="75" height="75"> 
 
 Point it at an Obsidian vault and get a knowledge graph, ready for Neo4j, LightRAG or a viewer in your browser.
 
