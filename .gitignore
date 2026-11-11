@@ -1,8 +1,19 @@
-# Publish only the project folder. Everything else here (your own vault, its graph,
-# the LightRAG store, the Python environment) stays out of the repository.
+# Only the project goes into the repository. Everything else in this folder (your own
+# vaults, their graphs, LightRAG stores, the Python environment) stays out, including
+# anything you add later. To publish a new top-level file, add a "!/name" line here.
 /*
 !/.gitignore
-!/vault2kg/
+!/README.md
+!/GRAPH_FORMAT.md
+!/VAULT_GUIDE.md
+!/LICENSE
+!/logo.svg
+!/*.py
+!/docker-compose*.yml
+!/demo_vault/
+!/sample_vault/
+!/example_output/
+!/skills/
 
 # A private house style for the viewer (kg_view.py uses its built-in style without it)
 proto-ui.css
