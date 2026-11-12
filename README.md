@@ -114,11 +114,13 @@ A demo this small can be answered by vector search alone. The difference shows o
 |---|---|---|---|---|
 | Which projects belong to the workshop service? | 8 notes have that service | 6 of 8 found, 4 wrong | **all 8 found**, 3 wrong | **all 8 found**, 2 wrong |
 | Which projects use the data warehouse, and for what? | 15 notes mention it | 9 of 15 found, 1 wrong | 9 of 15 found, 1 invented | **10 of 15 found, none wrong** |
+| Is adfinity used in any solutions using LangChain? | 1 note mentions LangChain and is 2 hops away from adfinity via a solution | 0 of 1 found, 2 wrong | **1 of 1 found**, 0 wrong | **1 of 1 found**, 0 wrong
 
 - **The service question** is where the graph helps. The LLM linked 82 of the 88 notes to their service, and the service is in each note's description, so `mix` reached all 8. Vector search found 6 and added 4 that only sounded similar. The `**Service:**` line in every note is what made those links; the [vault guide](guides/VAULT_GUIDE.md) explains why.
 - **The data-warehouse question** is a tie, but the two modes found different notes: 12 of 15 between them. The limit was the model's 8,192-token context. LightRAG found 66 entities and 79 relationships, and only 17 and 34 of them fit into the answer's context.
+- **The solution question** is where the knowledge graph shines. The LLM linked adfinity (entity) to a solution, which in turn was linked to the LangChain entity. During the mix query, the knowledge graph worked out the relationship between both entities and found the solution that links them. The naive mode hallucinated two wrong solutions that have nothing to do with LangChain.
 - **Wrong and invented entries** come from the 4B model writing the answer.
-- **The optional reranker** ([below](#reranking-optional)) helped on both: it chose better passages for the small context, and the answers named fewer wrong projects. One run per question, so read it as a direction, not a benchmark.
+- **The optional reranker** ([below](#reranking-optional)) helped on the first two questions: it chose better passages for the small context, and the answers named fewer wrong projects. One run per question, so read it as a direction, not a benchmark.
 
 For complete lists ("every project with risk R3"), use Neo4j: it filters exactly, where LightRAG ranks.
 
