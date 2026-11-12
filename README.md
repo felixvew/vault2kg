@@ -306,7 +306,7 @@ LightRAG's chunks are the passages.
 **Every passage stays linked.** LightRAG's custom-KG import accepts only one source passage per entity. Native LightRAG instead links an entity to every chunk it appears in, and its queries depend on that: chunks shared by several matched entities rank first, then the rest by vector similarity. So after the import, the script gives every entity and relationship all of its passages, using LightRAG's own `aedit_entity` / `aedit_relation`.
 - **An entity's passages:** the ones naming it, plus a note's own passages, up to LightRAG's limit of 200.
 - **A relationship's passages:** the ones that belong to both ends.
-- **`--single-source`** keeps the one-passage version.
+- **`--single-source`** keeps the one-passage version. (not recommended)
 
 **Frontmatter in LightRAG.** A note's description includes its plain properties, for example `Properties: team: Imaging; risk: R2; systems: Lab server AND GPU node`. LightRAG finds entities by their name and description, so a note can now be found by what its frontmatter says. Left out: technical fields (`cssclasses`, `created`, IDs, timestamps) and values nearly every note shares (a source file, a version). Properties that are links are already relationships, and passages stay free of frontmatter, so a note's passages stay distinguishable.
 
