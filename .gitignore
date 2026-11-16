@@ -5,6 +5,7 @@
 !/.gitignore
 !/README.md
 !/LICENSE
+!/pyproject.toml
 !/docker-compose*.yml
 !/src/
 !/tests/

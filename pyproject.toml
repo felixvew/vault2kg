@@ -1,0 +1,62 @@
+[project]
+name = "vault2kg"
+version = "0.1.0"
+description = "Turn an Obsidian vault into a knowledge graph for Neo4j, LightRAG or a viewer in your browser."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+dependencies = [
+    "pyyaml>=6",
+    "tiktoken",                      # exact token counts for passages
+    "neo4j>=5",                      # kg-to-neo4j
+    "lightrag-hku>=1.5.7,<1.6",      # kg-to-lightrag, tested with 1.5.7
+    "openai>=1",                     # LightRAG's client for vLLM and OpenAI
+]
+
+[project.optional-dependencies]
+# passages from Docling's HybridChunker (--docling); large, so only on request
+docling = ["docling"]
+
+[project.scripts]
+vault2kg = "vault2kg:main"
+kg-view = "kg_view:main"
+kg-to-neo4j = "kg_to_neo4j:main"
+kg-to-lightrag = "kg_to_lightrag:main"
+kg-to-graphml = "kg_to_graphml:main"
+
+[project.urls]
+Repository = "https://github.com/felixvew/vault2kg"
+
+[dependency-groups]
+test = ["pytest>=8"]
+
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+# The scripts stay single files in src/, so `python src/vault2kg.py` keeps working from a clone.
+# Only they are installed; a private proto-ui.css next to kg_view.py is never packaged.
+[tool.hatch.build.targets.wheel]
+only-include = [
+    "src/vault2kg.py",
+    "src/kg_view.py",
+    "src/kg_to_neo4j.py",
+    "src/kg_to_lightrag.py",
+    "src/kg_to_graphml.py",
+]
+sources = ["src"]
+
+[tool.hatch.build.targets.sdist]
+only-include = [
+    "src/vault2kg.py",
+    "src/kg_view.py",
+    "src/kg_to_neo4j.py",
+    "src/kg_to_lightrag.py",
+    "src/kg_to_graphml.py",
+    "README.md",
+    "LICENSE",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

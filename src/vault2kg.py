@@ -2299,13 +2299,16 @@ def _q(path: Path) -> str:
     return f'"{s}"' if " " in s else s
 
 
-def _script(name: str) -> str:
-    """How to call a script next to this one from where you are: 'src/kg_view.py' from the repo root."""
+def _command(name: str) -> str:
+    """How to run a script next to this one: its command when vault2kg is pip-installed
+    ('kg-view'), else 'python src/kg_view.py' from where you are (a clone)."""
     path = Path(__file__).resolve().parent / name
+    if {"site-packages", "dist-packages"} & set(path.parts):
+        return path.stem.replace("_", "-")
     try:
-        return _q(Path(os.path.relpath(path)))
+        return "python " + _q(Path(os.path.relpath(path)))
     except ValueError:  # another drive (Windows)
-        return _q(path)
+        return "python " + _q(path)
 
 
 def default_out(vault: Path) -> Path:
@@ -2367,7 +2370,7 @@ def main(argv: list[str] | None = None) -> int:
     log(f"\nKnowledge graph: {out / 'graph.json'}")
     steps = [("kg_view.py", "graph.html"), ("kg_to_neo4j.py", "Neo4j"), ("kg_to_lightrag.py", "LightRAG"),
              ("kg_to_graphml.py", "Gephi / networkx")]
-    cmds = [f"python {_script(s)} {_q(out)}" for s, _ in steps]
+    cmds = [f"{_command(s)} {_q(out)}" for s, _ in steps]
     width = max(map(len, cmds))
     log("Next (optional):  " + "\n                  ".join(f"{c:<{width}} -> {d}" for c, (_, d) in zip(cmds, steps)))
     return 0

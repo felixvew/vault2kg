@@ -18,6 +18,20 @@ Your vault already holds most of a graph: `[[links]]` are edges, frontmatter is 
 </table>
 <p align="center"><sub>A real vault of 88 notes in <code>src/kg_view.py</code>, names hidden: notes in black, entities in violet. Steps 1 and 2 are the same graph with the viewer's "Entities" and "Extracted by LLM" switches turned off. Entities and their relationships come from the same LLM step; step 2 only separates them to show what was found.</sub></p>
 
+## Install
+
+From a clone, the scripts run as they are: `pip install pyyaml`, then `python src/vault2kg.py …` as in the examples below.
+
+Or install vault2kg as a package, with everything the follow-up scripts need (LightRAG and its OpenAI client, the Neo4j driver, tiktoken for exact token counts). The scripts then become commands with the same arguments: `vault2kg`, `kg-view`, `kg-to-neo4j`, `kg-to-lightrag` and `kg-to-graphml`.
+
+```bash
+pip install "vault2kg @ git+https://github.com/felixvew/vault2kg"
+vault2kg ~/Documents/MyVault
+kg-to-lightrag ~/Documents/MyVault-kg --working-dir ./rag
+```
+
+From a clone, `pip install -e .` does the same for the scripts in `src/`. Docling is the one optional extra: `pip install "vault2kg[docling] @ git+…"` for `--docling`.
+
 ## From vault to answers: a worked example
 
 This repository includes `examples/demo_vault/`: eight numbered notes from a fictional "Lab Methods Handbook", structured as the [vault guide](guides/VAULT_GUIDE.md) recommends. That structure comes from a real vault we tested on. Each note has its number in the title and its facts in the frontmatter, repeats the facts that should become relationships as `**Label:** value` lines, and has free text under a heading and links to related notes:
