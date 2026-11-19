@@ -549,3 +549,14 @@ def test_lightrag_chunk_id_mismatch_falls_back(kg, monkeypatch, tmp_path):
     monkeypatch.setattr(kg_to_lightrag, "_embedding_dim", lambda url, model, key: 8)
     assert kg_to_lightrag.main([str(kg), "--working-dir", str(tmp_path / "rag")]) == 0
     assert got["kg"] and not got["entity_edits"]                                   # insert kept, no bad edits
+
+
+def test_lightrag_cross_section_edge_gets_passages_of_both_sides(tmp_path):
+    from test_vault2kg import CrossClient, cross_vault, run
+    vault, out = cross_vault(tmp_path), tmp_path / "out"
+    run(vault, out, CrossClient(), min_chars=1, cross_section=True)
+    links = {}
+    kg_to_lightrag.build_custom_kg(json.loads((out / "graph.json").read_text(encoding="utf-8")), links=links)
+    ids = next(ids for s, t, ids, _ in links["relationships"] if {s, t} == {"Anna Weber", "ViTPose"})
+    # no passage names both, so both sides' passages: "Anna leads" (Team) and "she replaced" (Decisions)
+    assert {i.rsplit(".p", 1)[0] for i in ids} == {"Pose Pipeline#c1", "Pose Pipeline#c2"}

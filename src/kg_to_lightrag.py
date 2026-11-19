@@ -27,7 +27,9 @@ How the graph is mapped (LightRAG's insert_custom_kg rules):
     insert, every entity and relationship is patched with ALL its passages via
     LightRAG's own aedit_entity / aedit_relation (--single-source skips this).
     An entity's passages: those naming it (name or alias) and, for a note, its
-    own passages. A relationship's: passages that belong to both ends.
+    own passages. A relationship's: passages that belong to both ends, or, when
+    none does (a cross-section relationship), those of either end in the
+    sections the relationship came from.
   - LightRAG keeps one relationship per pair of entities: several edges between
     the same two nodes are combined (types become the keywords)
   - weight = number of notes supporting it (LightRAG rejects weights below the
@@ -131,10 +133,12 @@ def build_custom_kg(graph: dict, normalize: Callable[[str], str] | None = None,
     chunks, first_of_note, first_of_section = [], {}, {}
     order: dict[str, int] = defaultdict(int)
     by_entity: dict[str, list[str]] = defaultdict(list)
+    section_of: dict[str, str] = {}
     for psg in graph.get("passages", []):
         chunks.append({"content": psg["embed_text"], "source_id": psg["id"], "file_path": psg["path"],
                        "chunk_order_index": order[psg["note"]]})
         order[psg["note"]] += 1
+        section_of[psg["id"]] = psg["chunk"]
         first_of_note.setdefault(psg["note"], psg["id"])
         first_of_section.setdefault(psg["chunk"], psg["id"])
         for e in psg.get("entities", []):
@@ -225,8 +229,11 @@ def build_custom_kg(graph: dict, normalize: Callable[[str], str] | None = None,
     for p in pairs.values():
         source = source_for(p["nodes"], p["chunks"], sorted(p["notes"]))
         if links is not None:
-            a_ids, b_ids = passages_of(p["nodes"][0]), set(passages_of(p["nodes"][1]))
-            both = [x for x in a_ids if x in b_ids]
+            a_ids, b_ids = passages_of(p["nodes"][0]), passages_of(p["nodes"][1])
+            both = [x for x in a_ids if x in set(b_ids)]
+            if not both:  # no passage names both ends (a cross-section relationship, for one): the
+                secs = set(p["chunks"])  # passages of either end in the sections it came from
+                both = [x for x in dict.fromkeys(a_ids + b_ids) if section_of.get(x) in secs]
             if source != "UNKNOWN" and source not in both:
                 both.insert(0, source)
             links["relationships"].append((p["src_id"], p["tgt_id"], both, float(max(1, len(p["notes"])))))

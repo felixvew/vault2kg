@@ -1035,3 +1035,172 @@ def test_explicit_base_url_reads_model_from_server(monkeypatch):
         assert client2.model == "other" and client2.embed_model == "my-served-model"
     finally:
         srv.shutdown()
+
+
+# ---------- cross-section relationships ----------
+class CrossClient:
+    """Section extraction finds Anna in one section and the tools in another;
+    the cross-section call connects them."""
+
+    model = "fake-model"
+
+    def __init__(self):
+        self.cross_calls = 0
+        self.prompts = []
+
+    def complete(self, messages, schema=None):
+        if messages[0]["content"].startswith("You find relationships"):
+            self.cross_calls += 1
+            self.prompts.append(messages[-1]["content"])
+            return json.dumps({"relationships": [
+                {"source": "Anna Weber", "target": "ViTPose", "type": "chose", "description": "She chose ViTPose.",
+                 "evidence": "Team: Anna leads; Decisions: she replaced MediaPipe", "confidence": 0.9},
+                {"source": "ViTPose", "target": "MediaPipe", "type": "REPLACED", "confidence": 0.9},   # same section
+                {"source": "Anna Weber", "target": "Nobody", "type": "KNOWS", "confidence": 0.9},     # unknown
+                {"source": "Anna Weber", "target": "MediaPipe", "type": "DISLIKES", "confidence": 0.3},  # guess
+            ]})
+        text = messages[-1]["content"].split("TEXT:", 1)[-1]
+        if "leads the motion analysis" in text:
+            return json.dumps({"entities": [{"name": "Anna Weber", "type": "Person", "description": "Lead."}],
+                               "relationships": []})
+        if "replaced MediaPipe" in text:
+            return json.dumps({"entities": [{"name": "ViTPose", "type": "Tool", "description": "Pose model."},
+                                            {"name": "MediaPipe", "type": "Tool", "description": "Old model."}],
+                               "relationships": [{"source": "ViTPose", "target": "MediaPipe", "type": "REPLACED",
+                                                  "confidence": 0.9}]})
+        return '{"entities": [], "relationships": []}'
+
+
+def cross_vault(tmp_path):
+    vault = tmp_path / "cv"
+    vault.mkdir()
+    (vault / "Pose Pipeline.md").write_text(
+        "# Pose Pipeline\n\n## Team\n\nAnna Weber leads the motion analysis at the lab.\n\n"
+        "## Decisions\n\nShe replaced MediaPipe with ViTPose because MediaPipe loses the wrist.\n",
+        encoding="utf-8")
+    return vault
+
+
+def test_cross_section_adds_checked_relationships(tmp_path):
+    vault, out, client = cross_vault(tmp_path), tmp_path / "out", CrossClient()
+    run(vault, out, client, min_chars=1, cross_section=True)
+    assert client.cross_calls == 1
+    assert "Anna Weber [Person]: Pose Pipeline > Team" in client.prompts[0]
+    doc = load(out, "Pose Pipeline.json")
+    r = rels(doc)
+    edge = r[("ent:anna weber", "CHOSE", "ent:vitpose")]
+    assert edge["origins"] == ["llm_cross_section"]
+    assert edge["confidence"] == pytest.approx(0.72)
+    assert {ev["chunk_id"] for ev in edge["evidence"]} == {"Pose Pipeline#c1", "Pose Pipeline#c2"}
+    assert all(ev["reason"].startswith("Team:") for ev in edge["evidence"])
+    assert r[("ent:vitpose", "REPLACED", "ent:mediapipe")]["origins"] == ["llm"]  # in-section edge untouched
+    assert ("ent:anna weber", "KNOWS", "ent:nobody") not in r
+    assert ("ent:anna weber", "DISLIKES", "ent:mediapipe") not in r
+    stats = doc["extraction"]["stats"]
+    assert stats["cross_section_relationships"] == 1
+    assert (stats["dropped_cross_unknown"], stats["dropped_cross_same_section"],
+            stats["dropped_cross_low_confidence"]) == (1, 1, 1)
+    assert doc["extraction"]["llm"]["cross_prompt_version"] == v.CROSS_PROMPT_VERSION
+    graph = load(out, "graph.json")
+    ge = next(e for e in graph["edges"] if e["type"] == "CHOSE")
+    assert ge["chunks"] == ["Pose Pipeline#c1", "Pose Pipeline#c2"]
+    # cached: a re-run makes no new call
+    client2 = CrossClient()
+    run(vault, out, client2, min_chars=1, cross_section=True)
+    assert client2.cross_calls == 0
+
+
+def test_cross_section_off_by_default(tmp_path):
+    vault, out, client = cross_vault(tmp_path), tmp_path / "out", CrossClient()
+    run(vault, out, client, min_chars=1)
+    assert client.cross_calls == 0
+    assert not any(t == "CHOSE" for _, t, _ in rels(load(out, "Pose Pipeline.json")))
+
+
+class LinkListClient(CrossClient):
+    """Like CrossClient, plus a 'Linked with' section whose link the section pass extracts,
+    and a cross answer that relates it, and the same pair twice."""
+
+    def complete(self, messages, schema=None):
+        if messages[0]["content"].startswith("You find relationships"):
+            self.cross_calls += 1
+            self.prompts.append(messages[-1]["content"])
+            return json.dumps({"relationships": [
+                {"source": "ViTPose", "target": "Anna Weber", "type": "CHOSEN_BY", "confidence": 0.7},
+                {"source": "Anna Weber", "target": "ViTPose", "type": "CHOSE", "confidence": 0.9},
+                {"source": "Anna Weber", "target": "Lab Server", "type": "LINKED_WITH", "confidence": 0.9},
+            ]})
+        if "Lab Server" in messages[-1]["content"].split("TEXT:", 1)[-1]:
+            return json.dumps({"entities": [{"name": "Lab Server", "type": "System", "description": "Server."}],
+                               "relationships": []})
+        return super().complete(messages, schema)
+
+
+def test_cross_section_skips_link_lists_and_keeps_one_edge_per_pair(tmp_path):
+    vault = cross_vault(tmp_path)
+    note = vault / "Pose Pipeline.md"
+    note.write_text(note.read_text(encoding="utf-8") + "\n## Linked with\n\n- [[Lab Server]]\n", encoding="utf-8")
+    (vault / "Lab Server.md").write_text("# Lab Server\n", encoding="utf-8")
+    out, client = tmp_path / "out", LinkListClient()
+    run(vault, out, client, min_chars=1, cross_section=True)
+    prompt = client.prompts[0]
+    assert "Lab Server" not in prompt and "Linked with" not in prompt  # neither listed nor in the text
+    doc = load(out, "Pose Pipeline.json")
+    r = rels(doc)
+    assert ("ent:anna weber", "CHOSE", "ent:vitpose") in r                 # the most confident of the pair
+    assert ("ent:vitpose", "CHOSEN_BY", "ent:anna weber") not in r
+    assert not any(t == "LINKED_WITH" for _, t, _ in r)
+    stats = doc["extraction"]["stats"]
+    assert stats["dropped_cross_duplicate"] == 1 and stats["dropped_cross_unknown"] == 1
+
+
+def test_link_list_only(tmp_path):
+    (tmp_path / "n.md").write_text(
+        "# N\n\nText about [[A]].\n\n## Linked with\n\n- [[A]]\n- [[B|bee]]\n1. [[D]]\n\n"
+        "## See also\n\n- [[C]]: shares the camera rig\n", encoding="utf-8")
+    note = v.parse_note(tmp_path, "n.md")
+    flags = {c.heading_path[-1]: v.link_list_only(note, c) for c in v.chunk_note(note, 2500, 1)}
+    assert flags == {"N": False, "Linked with": True, "See also": False}
+    # a template footer under the links: judged by what the LLM reads, which leaves it out
+    (tmp_path / "f.md").write_text("# F\n\nText.\n\n## Linked with\n\n- [[A]]\n\n---\nSource: report.pdf\n",
+                                   encoding="utf-8")
+    note = v.parse_note(tmp_path, "f.md")
+    last = v.chunk_note(note, 2500, 1)[-1]
+    assert not v.link_list_only(note, last)
+    assert v.link_list_only(note, last, lambda t: t.replace("Source: report.pdf", ""))
+
+
+def test_cross_section_digest_and_failure(tmp_path):
+    class FailingCross(CrossClient):
+        def complete(self, messages, schema=None):
+            if messages[0]["content"].startswith("You find relationships"):
+                self.cross_calls += 1
+                self.prompts.append(messages[-1]["content"])
+                raise RuntimeError("server error")
+            return super().complete(messages, schema)
+
+    vault, out, client = cross_vault(tmp_path), tmp_path / "out", FailingCross()
+    ex, summary = run(vault, out, client, min_chars=1, cross_section=True, cross_max_chars=60)
+    assert "NOTE DIGEST" in client.prompts[0] and "- Anna Weber: Lead." in client.prompts[0]
+    doc = load(out, "Pose Pipeline.json")
+    assert doc["extraction"]["stats"]["failed_cross_section"] == 1
+    assert doc["extraction"]["errors"][0]["stage"] == "llm_cross_section"
+    assert summary["cross_failed"] == 1
+    client2 = FailingCross()
+    run(vault, out, client2, min_chars=1, cross_section=True, cross_max_chars=60)
+    assert client2.cross_calls == 1  # a failure is not cached: retried on the next run
+
+
+def test_cross_limits_follow_the_model_context(tmp_path):
+    class Ctx:
+        model, context_len = "m", None
+
+    def limits(ctx, chars=0):
+        c = Ctx()
+        c.context_len = ctx
+        return v.VaultExtractor(v.Config(vault=tmp_path, out=tmp_path / "o", cross_max_chars=chars), c).cross_limits()
+
+    assert limits(None) == (v.CROSS_MAX_CHARS, v.CROSS_MAX_ENTITIES)       # unknown: sized for an 8k model
+    assert limits(8192) == (12800, 42)
+    assert limits(131072)[0] > 300_000                                     # a large model gets whole notes
+    assert limits(131072, chars=5000) == (5000, v.CROSS_MAX_ENTITIES)      # --cross-max-chars wins

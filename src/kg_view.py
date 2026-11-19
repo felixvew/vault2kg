@@ -51,7 +51,7 @@ def export_html(graph: dict, path: Path) -> None:
         "nodes": [{"id": n["id"], "name": n["name"], "kind": n["kind"], "type": n["type"],
                    "d": truncate(n["description"], 400), "a": n["aliases"][:8], "n": n["notes"][:40],
                    "p": n.get("path"), "r": n.get("resolved", True)} for n in graph["nodes"]],
-        "edges": [[index[e["source"]], index[e["target"]], e["type"], int(e["origins"] == ["llm"])]
+        "edges": [[index[e["source"]], index[e["target"]], e["type"], int(bool(e["origins"]) and all(o.startswith("llm") for o in e["origins"]))]
                   for e in graph["edges"]],
     }
     css_file = Path(__file__).with_name("proto-ui.css")

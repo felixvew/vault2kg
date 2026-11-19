@@ -40,7 +40,7 @@
 | field | |
 |---|---|
 | `source`, `target`, `type` | Directed. Structural types: `LINKS_TO`, `EMBEDS`, `HAS_TAG`, `SUBTAG_OF`, `MENTIONS` (note → entity found in it), and frontmatter keys (`owner` → `OWNER`). Everything else came from the LLM (`WORKS_AT`, `USES`…) |
-| `origins` | Where it came from: `wikilink`, `markdown_link`, `embed`, `frontmatter`, `tag`, `llm` |
+| `origins` | Where it came from: `wikilink`, `markdown_link`, `embed`, `frontmatter`, `tag`, `llm`, or `llm_cross_section` (only with `--cross-section`, see below) |
 | `description`, `confidence` | Set for LLM edges; `confidence` is 0–1 |
 | `notes`, `chunks` | Evidence: which notes and chunks support it |
 
@@ -88,4 +88,11 @@ Small chunks for vector search, cut inside each section. Search on the passages,
 - **Splitting:** a note is split by headings. Short sections are merged up to about 400 characters; long ones are split on paragraphs at about 2,500 characters, and a paragraph longer than that at a line break, a sentence end or a space, never inside a word. A heading always stays with the text below it.
 - **Extraction:** each chunk is extracted on its own, in parallel and cached. It gets the note-level context: title, aliases, tags, properties, the note's opening lines, its heading path, and every note linked anywhere in the note. That way "Tom" in section 3 is extracted as "Tom Becker", who was linked in section 1.
 - **Clean-up within a note:** short forms are folded into full names of the same type, but only when exactly one candidate fits ("Tom" → "Tom Becker", "ML" → "Machine Learning"). The relationships move along with them.
-- **Cross-section relationships:** a relationship whose two ends only appear in different sections is not guessed. Every entity is still connected to its note through `MENTIONS`.
+- **Cross-section relationships:** by default, a relationship whose two ends only appear in different sections is not extracted. Every entity is still connected to its note through `MENTIONS`.
+- **With `--cross-section`:** after the per-section pass, one more LLM call per note asks for relationships between entities of different sections, such as "She" in one section meaning "Anna Weber" from another. The model gets the note and the list of its entities with their sections. A long note goes as a digest: per section, what was found there and as much of the text as fits. The limit comes from the model's context on vLLM, else 12,000 characters; `--cross-max-chars` sets it. An answer is kept only if:
+  - both ends are entities extracted in this note, and neither is the note itself;
+  - they were never extracted in the same section;
+  - the model's confidence is at least 0.5;
+  - it's the first for that pair of entities, taking the most confident.
+
+  Sections that only list links ("Linked with") don't count: they state no facts, and their links are already edges of the note. Kept edges have the origin `llm_cross_section`, 0.8 × the model's confidence, and as evidence every section of both ends plus the model's `reason`. The note's `extraction.stats` counts what was dropped and why. In Neo4j, filter them with `WHERE 'llm_cross_section' IN r.origins`. In LightRAG, such an edge gets the passages of both ends in those sections. The pass needs a strong model. On a real vault of 88 notes, a 4B model's answers mostly named entities that weren't in the list or pairs from the same section; the checks dropped those. The few it kept mostly attached the note's own facts to one of its entities.
